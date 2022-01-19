@@ -8,11 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		1A57960627975F08002F10A5 /* AppUI.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A57960527975F08002F10A5 /* AppUI.storyboard */; };
+		1AB76540279842AD001FE9CC /* HealthDataControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB7653F279842AD001FE9CC /* HealthDataControler.swift */; };
 		1AF4216D2797575E005A57B6 /* HealthTrack_UploaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF4216C2797575E005A57B6 /* HealthTrack_UploaderApp.swift */; };
 		1AF421712797575E005A57B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AF421702797575E005A57B6 /* Assets.xcassets */; };
 		1AF421742797575E005A57B6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AF421732797575E005A57B6 /* Preview Assets.xcassets */; };
 		1AF4217B2797579E005A57B6 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AF4217A2797579E005A57B6 /* HealthKit.framework */; };
-		1AF4217C279758E3005A57B6 /* HealthKitSetupAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8EABF11EAEA860002DD041 /* HealthKitSetupAssistant.swift */; };
+		1AF4217C279758E3005A57B6 /* HealthKitWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8EABF11EAEA860002DD041 /* HealthKitWrapper.swift */; };
 		9F270C321EBE47EB0075412F /* WorkoutSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F270C311EBE47EB0075412F /* WorkoutSession.swift */; };
 		AC891D731EDDBDC500A0F84A /* WorkoutDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC891D721EDDBDC500A0F84A /* WorkoutDataStore.swift */; };
 		AC8EABE61EAEA833002DD041 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC8EABE51EAEA833002DD041 /* Assets.xcassets */; };
@@ -32,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		1A57960527975F08002F10A5 /* AppUI.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppUI.storyboard; sourceTree = "<group>"; };
+		1AB7653F279842AD001FE9CC /* HealthDataControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataControler.swift; sourceTree = "<group>"; };
 		1AF4216A2797575E005A57B6 /* HealthTrack Uploader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HealthTrack Uploader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AF4216C2797575E005A57B6 /* HealthTrack_UploaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTrack_UploaderApp.swift; sourceTree = "<group>"; };
 		1AF421702797575E005A57B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -47,7 +49,7 @@
 		AC8EABEA1EAEA855002DD041 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MasterViewController.swift; path = "Prancercise Tracker/MasterViewController.swift"; sourceTree = SOURCE_ROOT; };
 		AC8EABEB1EAEA855002DD041 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = "Prancercise Tracker/ProfileViewController.swift"; sourceTree = SOURCE_ROOT; };
 		AC8EABEC1EAEA855002DD041 /* WorkoutsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorkoutsTableViewController.swift; path = "Prancercise Tracker/WorkoutsTableViewController.swift"; sourceTree = SOURCE_ROOT; };
-		AC8EABF11EAEA860002DD041 /* HealthKitSetupAssistant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HealthKitSetupAssistant.swift; path = "HealthTrack Uploader/HealthKitSetupAssistant.swift"; sourceTree = SOURCE_ROOT; };
+		AC8EABF11EAEA860002DD041 /* HealthKitWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HealthKitWrapper.swift; path = "HealthTrack Uploader/Classes/HealthKitWrapper.swift"; sourceTree = SOURCE_ROOT; };
 		AC8EABF31EAEA86A002DD041 /* ProfileDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileDataStore.swift; path = "Prancercise Tracker/ProfileDataStore.swift"; sourceTree = SOURCE_ROOT; };
 		AC8EABF71EAEA895002DD041 /* HKBiologicalSex+StringRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "HKBiologicalSex+StringRepresentation.swift"; path = "Prancercise Tracker/HKBiologicalSex+StringRepresentation.swift"; sourceTree = SOURCE_ROOT; };
 		AC8EABF81EAEA895002DD041 /* HKBloodType+StringRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "HKBloodType+StringRepresentation.swift"; path = "Prancercise Tracker/HKBloodType+StringRepresentation.swift"; sourceTree = SOURCE_ROOT; };
@@ -77,23 +79,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1A57960427975E5C002F10A5 /* Views */ = {
+		1A57960427975E5C002F10A5 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1AB7653F279842AD001FE9CC /* HealthDataControler.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		1AB7653E2798425C001FE9CC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1A57960527975F08002F10A5 /* AppUI.storyboard */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		1AB7654127985EDF001FE9CC /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				AC8EABF11EAEA860002DD041 /* HealthKitWrapper.swift */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		1AF4216B2797575E005A57B6 /* HealthTrack Uploader */ = {
 			isa = PBXGroup;
 			children = (
-				1A57960427975E5C002F10A5 /* Views */,
+				1AB7654127985EDF001FE9CC /* Classes */,
+				1AB7653E2798425C001FE9CC /* Views */,
+				1A57960427975E5C002F10A5 /* View Controllers */,
 				1AF421782797579E005A57B6 /* HealthTrack Uploader.entitlements */,
 				1AF4216C2797575E005A57B6 /* HealthTrack_UploaderApp.swift */,
-				AC8EABF11EAEA860002DD041 /* HealthKitSetupAssistant.swift */,
 				1AF421702797575E005A57B6 /* Assets.xcassets */,
 				1AF421722797575E005A57B6 /* Preview Content */,
-				1A57960527975F08002F10A5 /* AppUI.storyboard */,
 			);
 			path = "HealthTrack Uploader";
 			sourceTree = "<group>";
@@ -289,7 +308,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AF4217C279758E3005A57B6 /* HealthKitSetupAssistant.swift in Sources */,
+				1AF4217C279758E3005A57B6 /* HealthKitWrapper.swift in Sources */,
+				1AB76540279842AD001FE9CC /* HealthDataControler.swift in Sources */,
 				1AF4216D2797575E005A57B6 /* HealthTrack_UploaderApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -349,15 +369,14 @@
 				CODE_SIGN_ENTITLEMENTS = "HealthTrack Uploader/HealthTrack Uploader.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"HealthTrack Uploader/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = M6W465BV4T;
 				ENABLE_PREVIEWS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "HealthTrack-Uploader-Info.plist";
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_CFBundleDisplayName = "HealthTrack Uploader";
-				INFOPLIST_KEY_NSHealthShareUsageDescription = HealthShareUsageDescription;
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = HealthUpdateUsageDescription;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "HealthTrack Uploader needs to access basic health data to upload it to your chosen remote object store";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = AppUI;
 				INFOPLIST_KEY_UIMainStoryboardFile = AppUI;
@@ -391,15 +410,14 @@
 				CODE_SIGN_ENTITLEMENTS = "HealthTrack Uploader/HealthTrack Uploader.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"HealthTrack Uploader/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = M6W465BV4T;
 				ENABLE_PREVIEWS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "HealthTrack-Uploader-Info.plist";
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_CFBundleDisplayName = "HealthTrack Uploader";
-				INFOPLIST_KEY_NSHealthShareUsageDescription = HealthShareUsageDescription;
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = HealthUpdateUsageDescription;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "HealthTrack Uploader needs to access basic health data to upload it to your chosen remote object store";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = AppUI;
 				INFOPLIST_KEY_UIMainStoryboardFile = AppUI;
