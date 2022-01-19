@@ -14,21 +14,6 @@
 		1AF421742797575E005A57B6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AF421732797575E005A57B6 /* Preview Assets.xcassets */; };
 		1AF4217B2797579E005A57B6 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AF4217A2797579E005A57B6 /* HealthKit.framework */; };
 		1AF4217C279758E3005A57B6 /* HealthKitWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8EABF11EAEA860002DD041 /* HealthKitWrapper.swift */; };
-		9F270C321EBE47EB0075412F /* WorkoutSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F270C311EBE47EB0075412F /* WorkoutSession.swift */; };
-		AC891D731EDDBDC500A0F84A /* WorkoutDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC891D721EDDBDC500A0F84A /* WorkoutDataStore.swift */; };
-		AC8EABE61EAEA833002DD041 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC8EABE51EAEA833002DD041 /* Assets.xcassets */; };
-		AC8EABE81EAEA83F002DD041 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8EABE71EAEA83F002DD041 /* AppDelegate.swift */; };
-		AC8EABED1EAEA855002DD041 /* CreateWorkoutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8EABE91EAEA855002DD041 /* CreateWorkoutTableViewController.swift */; };
-		AC8EABEE1EAEA855002DD041 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8EABEA1EAEA855002DD041 /* MasterViewController.swift */; };
-		AC8EABEF1EAEA855002DD041 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8EABEB1EAEA855002DD041 /* ProfileViewController.swift */; };
-		AC8EABF01EAEA855002DD041 /* WorkoutsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8EABEC1EAEA855002DD041 /* WorkoutsTableViewController.swift */; };
-		AC8EABF41EAEA86A002DD041 /* ProfileDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8EABF31EAEA86A002DD041 /* ProfileDataStore.swift */; };
-		AC8EABF91EAEA895002DD041 /* HKBiologicalSex+StringRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8EABF71EAEA895002DD041 /* HKBiologicalSex+StringRepresentation.swift */; };
-		AC8EABFA1EAEA895002DD041 /* HKBloodType+StringRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8EABF81EAEA895002DD041 /* HKBloodType+StringRepresentation.swift */; };
-		AC8EABFD1EAEA8B2002DD041 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC8EABFB1EAEA8B2002DD041 /* Main.storyboard */; };
-		AC8EAC081EAEA8E5002DD041 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8EAC071EAEA8E5002DD041 /* Workout.swift */; };
-		ACF4F9201EB0FFED0031154C /* UserHealthProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF4F91F1EB0FFED0031154C /* UserHealthProfile.swift */; };
-		ACF4F9261EB215DE0031154C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACF4F9241EB215DE0031154C /* LaunchScreen.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,24 +25,7 @@
 		1AF421732797575E005A57B6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1AF421782797579E005A57B6 /* HealthTrack Uploader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "HealthTrack Uploader.entitlements"; sourceTree = "<group>"; };
 		1AF4217A2797579E005A57B6 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
-		9F270C311EBE47EB0075412F /* WorkoutSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutSession.swift; sourceTree = SOURCE_ROOT; };
-		AC1BA50C1EAE5D2F00C99FE3 /* Prancercise Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Prancercise Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AC891D721EDDBDC500A0F84A /* WorkoutDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorkoutDataStore.swift; path = "Prancercise Tracker/WorkoutDataStore.swift"; sourceTree = SOURCE_ROOT; };
-		AC8EABE51EAEA833002DD041 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "Prancercise Tracker/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
-		AC8EABE71EAEA83F002DD041 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "Prancercise Tracker/AppDelegate.swift"; sourceTree = SOURCE_ROOT; };
-		AC8EABE91EAEA855002DD041 /* CreateWorkoutTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateWorkoutTableViewController.swift; path = "Prancercise Tracker/CreateWorkoutTableViewController.swift"; sourceTree = SOURCE_ROOT; };
-		AC8EABEA1EAEA855002DD041 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MasterViewController.swift; path = "Prancercise Tracker/MasterViewController.swift"; sourceTree = SOURCE_ROOT; };
-		AC8EABEB1EAEA855002DD041 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = "Prancercise Tracker/ProfileViewController.swift"; sourceTree = SOURCE_ROOT; };
-		AC8EABEC1EAEA855002DD041 /* WorkoutsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorkoutsTableViewController.swift; path = "Prancercise Tracker/WorkoutsTableViewController.swift"; sourceTree = SOURCE_ROOT; };
 		AC8EABF11EAEA860002DD041 /* HealthKitWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HealthKitWrapper.swift; path = "HealthTrack Uploader/Classes/HealthKitWrapper.swift"; sourceTree = SOURCE_ROOT; };
-		AC8EABF31EAEA86A002DD041 /* ProfileDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileDataStore.swift; path = "Prancercise Tracker/ProfileDataStore.swift"; sourceTree = SOURCE_ROOT; };
-		AC8EABF71EAEA895002DD041 /* HKBiologicalSex+StringRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "HKBiologicalSex+StringRepresentation.swift"; path = "Prancercise Tracker/HKBiologicalSex+StringRepresentation.swift"; sourceTree = SOURCE_ROOT; };
-		AC8EABF81EAEA895002DD041 /* HKBloodType+StringRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "HKBloodType+StringRepresentation.swift"; path = "Prancercise Tracker/HKBloodType+StringRepresentation.swift"; sourceTree = SOURCE_ROOT; };
-		AC8EABFC1EAEA8B2002DD041 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Prancercise Tracker/Base.lproj/Main.storyboard"; sourceTree = SOURCE_ROOT; };
-		AC8EAC011EAEA8C8002DD041 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Prancercise Tracker/Info.plist"; sourceTree = SOURCE_ROOT; };
-		AC8EAC071EAEA8E5002DD041 /* Workout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Workout.swift; path = "Prancercise Tracker/Workout.swift"; sourceTree = SOURCE_ROOT; };
-		ACF4F91F1EB0FFED0031154C /* UserHealthProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserHealthProfile.swift; sourceTree = SOURCE_ROOT; };
-		ACF4F9251EB215DE0031154C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = "Prancercise Tracker/Base.lproj/LaunchScreen.xib"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,13 +34,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AF4217B2797579E005A57B6 /* HealthKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AC1BA5091EAE5D2F00C99FE3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +97,6 @@
 		AC1BA5031EAE5D2F00C99FE3 = {
 			isa = PBXGroup;
 			children = (
-				AC1BA50E1EAE5D2F00C99FE3 /* Prancercise Tracker */,
 				1AF4216B2797575E005A57B6 /* HealthTrack Uploader */,
 				AC1BA50D1EAE5D2F00C99FE3 /* Products */,
 				1AF421792797579E005A57B6 /* Frameworks */,
@@ -146,58 +106,9 @@
 		AC1BA50D1EAE5D2F00C99FE3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AC1BA50C1EAE5D2F00C99FE3 /* Prancercise Tracker.app */,
 				1AF4216A2797575E005A57B6 /* HealthTrack Uploader.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		AC1BA50E1EAE5D2F00C99FE3 /* Prancercise Tracker */ = {
-			isa = PBXGroup;
-			children = (
-				AC1BA52F1EAE5E5400C99FE3 /* View Controllers */,
-				AC8EABDB1EAE88DB002DD041 /* Models */,
-				AC8EABE71EAEA83F002DD041 /* AppDelegate.swift */,
-				AC8EABF31EAEA86A002DD041 /* ProfileDataStore.swift */,
-				AC891D721EDDBDC500A0F84A /* WorkoutDataStore.swift */,
-				AC8EABDE1EAE9B56002DD041 /* HealthKit Extensions */,
-				AC8EABE51EAEA833002DD041 /* Assets.xcassets */,
-				AC8EABFB1EAEA8B2002DD041 /* Main.storyboard */,
-				ACF4F9241EB215DE0031154C /* LaunchScreen.xib */,
-				AC8EAC011EAEA8C8002DD041 /* Info.plist */,
-			);
-			name = "Prancercise Tracker";
-			path = "Prancercise Tracker Starter";
-			sourceTree = "<group>";
-		};
-		AC1BA52F1EAE5E5400C99FE3 /* View Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				AC8EABE91EAEA855002DD041 /* CreateWorkoutTableViewController.swift */,
-				AC8EABEC1EAEA855002DD041 /* WorkoutsTableViewController.swift */,
-				AC8EABEA1EAEA855002DD041 /* MasterViewController.swift */,
-				AC8EABEB1EAEA855002DD041 /* ProfileViewController.swift */,
-			);
-			name = "View Controllers";
-			sourceTree = "<group>";
-		};
-		AC8EABDB1EAE88DB002DD041 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				AC8EAC071EAEA8E5002DD041 /* Workout.swift */,
-				9F270C311EBE47EB0075412F /* WorkoutSession.swift */,
-				ACF4F91F1EB0FFED0031154C /* UserHealthProfile.swift */,
-			);
-			name = Models;
-			sourceTree = "<group>";
-		};
-		AC8EABDE1EAE9B56002DD041 /* HealthKit Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				AC8EABF71EAEA895002DD041 /* HKBiologicalSex+StringRepresentation.swift */,
-				AC8EABF81EAEA895002DD041 /* HKBloodType+StringRepresentation.swift */,
-			);
-			name = "HealthKit Extensions";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -220,23 +131,6 @@
 			productReference = 1AF4216A2797575E005A57B6 /* HealthTrack Uploader.app */;
 			productType = "com.apple.product-type.application";
 		};
-		AC1BA50B1EAE5D2F00C99FE3 /* Prancercise Tracker */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AC1BA51E1EAE5D2F00C99FE3 /* Build configuration list for PBXNativeTarget "Prancercise Tracker" */;
-			buildPhases = (
-				AC1BA5081EAE5D2F00C99FE3 /* Sources */,
-				AC1BA5091EAE5D2F00C99FE3 /* Frameworks */,
-				AC1BA50A1EAE5D2F00C99FE3 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Prancercise Tracker";
-			productName = "Prancercise Tracker Starter";
-			productReference = AC1BA50C1EAE5D2F00C99FE3 /* Prancercise Tracker.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -250,12 +144,6 @@
 					1AF421692797575E005A57B6 = {
 						CreatedOnToolsVersion = 13.2.1;
 						DevelopmentTeam = M6W465BV4T;
-						ProvisioningStyle = Automatic;
-					};
-					AC1BA50B1EAE5D2F00C99FE3 = {
-						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = M6W465BV4T;
-						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -274,7 +162,6 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AC1BA50B1EAE5D2F00C99FE3 /* Prancercise Tracker */,
 				1AF421692797575E005A57B6 /* HealthTrack Uploader */,
 			);
 		};
@@ -291,16 +178,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AC1BA50A1EAE5D2F00C99FE3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				ACF4F9261EB215DE0031154C /* LaunchScreen.xib in Resources */,
-				AC8EABFD1EAEA8B2002DD041 /* Main.storyboard in Resources */,
-				AC8EABE61EAEA833002DD041 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -314,45 +191,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AC1BA5081EAE5D2F00C99FE3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AC8EABFA1EAEA895002DD041 /* HKBloodType+StringRepresentation.swift in Sources */,
-				AC8EABF01EAEA855002DD041 /* WorkoutsTableViewController.swift in Sources */,
-				9F270C321EBE47EB0075412F /* WorkoutSession.swift in Sources */,
-				AC8EABED1EAEA855002DD041 /* CreateWorkoutTableViewController.swift in Sources */,
-				AC8EABF41EAEA86A002DD041 /* ProfileDataStore.swift in Sources */,
-				ACF4F9201EB0FFED0031154C /* UserHealthProfile.swift in Sources */,
-				AC8EABE81EAEA83F002DD041 /* AppDelegate.swift in Sources */,
-				AC891D731EDDBDC500A0F84A /* WorkoutDataStore.swift in Sources */,
-				AC8EABEE1EAEA855002DD041 /* MasterViewController.swift in Sources */,
-				AC8EABEF1EAEA855002DD041 /* ProfileViewController.swift in Sources */,
-				AC8EAC081EAEA8E5002DD041 /* Workout.swift in Sources */,
-				AC8EABF91EAEA895002DD041 /* HKBiologicalSex+StringRepresentation.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		AC8EABFB1EAEA8B2002DD041 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AC8EABFC1EAEA8B2002DD041 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		ACF4F9241EB215DE0031154C /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				ACF4F9251EB215DE0031154C /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1AF421762797575E005A57B6 /* Debug */ = {
@@ -383,7 +222,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -424,7 +263,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.0;
 				MTL_FAST_MATH = YES;
@@ -543,34 +382,6 @@
 			};
 			name = Release;
 		};
-		AC1BA51F1EAE5D2F00C99FE3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = M6W465BV4T;
-				INFOPLIST_FILE = "Prancercise Tracker/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bottswana.HealthTrackTest;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
-			};
-			name = Debug;
-		};
-		AC1BA5201EAE5D2F00C99FE3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = M6W465BV4T;
-				INFOPLIST_FILE = "Prancercise Tracker/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bottswana.HealthTrackTest;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -588,15 +399,6 @@
 			buildConfigurations = (
 				AC1BA51C1EAE5D2F00C99FE3 /* Debug */,
 				AC1BA51D1EAE5D2F00C99FE3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AC1BA51E1EAE5D2F00C99FE3 /* Build configuration list for PBXNativeTarget "Prancercise Tracker" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AC1BA51F1EAE5D2F00C99FE3 /* Debug */,
-				AC1BA5201EAE5D2F00C99FE3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
