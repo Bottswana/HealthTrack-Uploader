@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1A57960627975F08002F10A5 /* AppUI.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A57960527975F08002F10A5 /* AppUI.storyboard */; };
 		1AB76540279842AD001FE9CC /* HealthDataControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB7653F279842AD001FE9CC /* HealthDataControler.swift */; };
+		1AED6C6F2799C450008D7B31 /* DataUploadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AED6C6E2799C450008D7B31 /* DataUploadController.swift */; };
 		1AF4216D2797575E005A57B6 /* HealthTrack_UploaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF4216C2797575E005A57B6 /* HealthTrack_UploaderApp.swift */; };
 		1AF421712797575E005A57B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AF421702797575E005A57B6 /* Assets.xcassets */; };
 		1AF421742797575E005A57B6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AF421732797575E005A57B6 /* Preview Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* Begin PBXFileReference section */
 		1A57960527975F08002F10A5 /* AppUI.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppUI.storyboard; sourceTree = "<group>"; };
 		1AB7653F279842AD001FE9CC /* HealthDataControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataControler.swift; sourceTree = "<group>"; };
+		1AED6C6E2799C450008D7B31 /* DataUploadController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUploadController.swift; sourceTree = "<group>"; };
 		1AF4216A2797575E005A57B6 /* HealthTrack Uploader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HealthTrack Uploader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AF4216C2797575E005A57B6 /* HealthTrack_UploaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTrack_UploaderApp.swift; sourceTree = "<group>"; };
 		1AF421702797575E005A57B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -44,6 +46,7 @@
 			isa = PBXGroup;
 			children = (
 				1AB7653F279842AD001FE9CC /* HealthDataControler.swift */,
+				1AED6C6E2799C450008D7B31 /* DataUploadController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -185,6 +188,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AED6C6F2799C450008D7B31 /* DataUploadController.swift in Sources */,
 				1AF4217C279758E3005A57B6 /* HealthKitWrapper.swift in Sources */,
 				1AB76540279842AD001FE9CC /* HealthDataControler.swift in Sources */,
 				1AF4216D2797575E005A57B6 /* HealthTrack_UploaderApp.swift in Sources */,

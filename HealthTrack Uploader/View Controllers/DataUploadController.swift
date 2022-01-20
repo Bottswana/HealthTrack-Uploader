@@ -1,19 +1,23 @@
 //
-//  HealthDataController.swift
+//  DataUploadController.swift
 //  HealthTrack Uploader
 //
-//  Created by James Botting on 19/01/2022.
+//  Created by James Botting on 20/01/2022.
 //  Copyright © 2022 Bottswana Media. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-class HealthDataController: UITableViewController
+class DataUploadController: UITableViewController
 {
-    @IBOutlet var restingHeartRate: UILabel!
-    @IBOutlet var exerciseMinutes: UILabel!
-    @IBOutlet var stepCount: UILabel!
+    @IBOutlet var lastUploadData: UITextView!
+    @IBOutlet var uploadStateLabel: UILabel!
+    @IBOutlet var lastUploadLabel: UILabel!
+    @IBOutlet var awsSecret: UITextField!
+    @IBOutlet var awsBucket: UITextField!
+    @IBOutlet var awsKeyID: UITextField!
+    @IBOutlet var awsFile: UITextField!
     
     private var isAuthorised: Bool = false;
     
@@ -25,15 +29,21 @@ class HealthDataController: UITableViewController
             let authStatus = await HealthKitWrapper.isAuthorised();
             if( authStatus )
             {
-                // Update the view to match that we don't need to request authorisation again
-                updateViewHealthKitAuthorised();
                 await refreshData();
+            }
+            else
+            {
+                DispatchQueue.main.async
+                {
+                    self.throwErrorDialog(errorText: "Please configure HealthKit access first");
+                }
             }
         }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
+        /*
         guard ( indexPath.section != 0 ) else
         {
             switch indexPath.row
@@ -99,7 +109,7 @@ class HealthDataController: UITableViewController
             }
             
             return;
-        }
+        }*/
     }
     
     private func refreshData() async -> Void
@@ -107,14 +117,8 @@ class HealthDataController: UITableViewController
         let (minutes, steps, heartrate) = await HealthKitWrapper.refreshHealthKitData();
         DispatchQueue.main.async
         {
-            if let heartrate = heartrate { self.restingHeartRate.text = "\(Int(heartrate)) BPM"; }
-            else { self.restingHeartRate.text = "No Data"; }
             
-            if let steps = steps { self.stepCount.text = "\(Int(steps)) Steps"; }
-            else { self.stepCount.text = "No Data"; }
 
-            if let minutes = minutes { self.exerciseMinutes.text = "\(Int(minutes)) Minutes"; }
-            else { self.exerciseMinutes.text = "No Data"; }
         }
     }
     
@@ -179,17 +183,5 @@ class HealthDataController: UITableViewController
                 cellLabel.textColor = colour;
             }
         }
-    }
-    
-    private func updateViewHealthKitAuthorised()
-    {
-        // Update HealthKit button
-        updateAccessoryWithCheck(path: IndexPath(row: 0, section: 0), colour: UIColor.secondaryLabel);
-        updateLabelWithColour(path: IndexPath(row: 0, section: 0), colour: UIColor.secondaryLabel);
-        
-        // Update Sync Button
-        updateAccessoryWithNothing(path: IndexPath(row: 1, section: 0), colour: UIColor.tintColor);
-        updateLabelWithColour(path: IndexPath(row: 1, section: 0), colour: UIColor.tintColor);
-        isAuthorised = true;
     }
 }

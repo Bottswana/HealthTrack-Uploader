@@ -48,6 +48,76 @@ class HealthKitWrapper
         }
     }
     
+    class func refreshHealthKitData() async -> (activeMinutes: Double?, numberSteps: Double?, restingHeartRate: Double?)
+    {
+        var healthKitActiveMinutes: Double? = nil;
+        var healthKitStepCount: Double? = nil;
+        var healthKitRestingHR: Double? = nil;
+        
+        // Retrieve Exercise Minutes
+        do
+        {
+            let exersiseTimeTypeWrapped = HKObjectType.quantityType(forIdentifier: .appleExerciseTime);
+            if let exersiseTimeType = exersiseTimeTypeWrapped
+            {
+                let queryResult = try await getSamplesForCurrentDay(dataType: exersiseTimeType, options: .cumulativeSum);
+                let todaysSampleWrapped = queryResult.sumQuantity();
+                if let todaysSample = todaysSampleWrapped
+                {
+                    let rawValue = todaysSample.doubleValue(for: HKUnit.minute());
+                    healthKitActiveMinutes = rawValue;
+                }
+            }
+        }
+        catch
+        {
+            print("No samples for HealthKitActiveMinutes");
+        }
+        
+        // Retrieve Step Count
+        do
+        {
+            let stepCountTypeWrapped = HKObjectType.quantityType(forIdentifier: .stepCount);
+            if let stepCountType = stepCountTypeWrapped
+            {
+                let queryResult = try await HealthKitWrapper.getSamplesForCurrentDay(dataType: stepCountType, options: .cumulativeSum);
+                let todaysSampleWrapped = queryResult.sumQuantity();
+                if let todaysSample = todaysSampleWrapped
+                {
+                    let rawValue = todaysSample.doubleValue(for: HKUnit.count());
+                    healthKitStepCount = rawValue;
+                }
+            }
+        }
+        catch
+        {
+            print("No samples for HealthKitStepCount");
+        }
+        
+        // Retrieve Avg Resting Heartrate
+        do
+        {
+            let restingHRTypeWrapped = HKObjectType.quantityType(forIdentifier: .restingHeartRate);
+            if let restingHRType = restingHRTypeWrapped
+            {
+                let queryResult = try await HealthKitWrapper.getSamplesForCurrentDay(dataType: restingHRType, options: .discreteAverage);
+                let todaysSampleWrapped = queryResult.averageQuantity();
+                if let todaysSample = todaysSampleWrapped
+                {
+                    let rawValue = todaysSample.doubleValue(for: HKUnit.init(from: "count/min"));
+                    healthKitRestingHR = rawValue;
+                }
+            }
+        }
+        catch
+        {
+            print("No samples for HealthKitAvgHR");
+        }
+
+        // Return data
+        return (healthKitActiveMinutes, healthKitStepCount, healthKitRestingHR);
+    }
+    
     class func getSamplesForCurrentDay(dataType: HKQuantityType, options: HKStatisticsOptions? = nil) async throws -> HKStatistics
     {
         // Setup the scope for our samples
