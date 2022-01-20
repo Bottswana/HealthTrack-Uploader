@@ -7,119 +7,175 @@
 //
 
 import Foundation
+import CoreData
 import UIKit
 
 class DataUploadController: UITableViewController
 {
+    @IBOutlet var ClearButtonCell: UITableViewCell!;
+    @IBOutlet var syncButtonCell: UITableViewCell!;
+    @IBOutlet var saveButtonCell: UITableViewCell!;
     @IBOutlet var lastUploadData: UITextView!
     @IBOutlet var uploadStateLabel: UILabel!
     @IBOutlet var lastUploadLabel: UILabel!
+    @IBOutlet var awsInterval: UITextField!
     @IBOutlet var awsSecret: UITextField!
     @IBOutlet var awsBucket: UITextField!
     @IBOutlet var awsKeyID: UITextField!
     @IBOutlet var awsFile: UITextField!
     
+    private var appSettings: NSManagedObject? = nil;
     private var isAuthorised: Bool = false;
     
     override func loadView()
     {
         super.loadView();
-        Task.init
-        {
-            let authStatus = await HealthKitWrapper.isAuthorised();
-            if( authStatus )
-            {
-                await refreshData();
-            }
-            else
-            {
-                DispatchQueue.main.async
-                {
-                    self.throwErrorDialog(errorText: "Please configure HealthKit access first");
-                }
-            }
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
-    {
-        /*
-        guard ( indexPath.section != 0 ) else
-        {
-            switch indexPath.row
-            {
-                case 0:
-                    // Authorise HealthKit Button
-                    guard isAuthorised else
-                    {
-                        updateLabelWithColour(path: IndexPath(row: 0, section: 0), colour: UIColor.secondaryLabel);
-                        updateAccessoryWithActivityIndicator(path: IndexPath(row: 0, section: 0));
-                        isAuthorised = true;
-                        Task.init
-                        {
-                            do
-                            {
-                                try await HealthKitWrapper.authoriseHealthKit();
-                                updateViewHealthKitAuthorised();
-                            }
-                            catch HealthKitWrapper.HealthKitSetupError.dataTypeNotAvailable
-                            {
-                                throwErrorDialog(errorText: "Authorization of HealthKit failed:\nThis device does not support the required data");
-                                updateAccessoryWithNothing(path: IndexPath(row: 0, section: 0), colour: UIColor.tintColor);
-                                updateLabelWithColour(path: IndexPath(row: 0, section: 0), colour: UIColor.tintColor);
-                                isAuthorised = false;
-                            }
-                            catch HealthKitWrapper.HealthKitSetupError.notAvailableOnDevice
-                            {
-                                throwErrorDialog(errorText: "Authorization of HealthKit failed:\nThis device does not support HealthKit");
-                                updateAccessoryWithNothing(path: IndexPath(row: 0, section: 0), colour: UIColor.tintColor);
-                                updateLabelWithColour(path: IndexPath(row: 0, section: 0), colour: UIColor.tintColor);
-                                isAuthorised = false;
-                            }
-                            catch
-                            {
-                                throwErrorDialog(errorText: "Authorization of HealthKit failed:\n\(error)");
-                                updateAccessoryWithNothing(path: IndexPath(row: 0, section: 0), colour: UIColor.tintColor);
-                                updateLabelWithColour(path: IndexPath(row: 0, section: 0), colour: UIColor.tintColor);
-                                isAuthorised = false;
-                            }
-                        }
-                        
-                        return;
-                    }
-                break;
-                case 1:
-                    // Refresh Data
-                    guard !isAuthorised else
-                    {
-                        updateLabelWithColour(path: IndexPath(row: 1, section: 0), colour: UIColor.secondaryLabel);
-                        updateAccessoryWithActivityIndicator(path: IndexPath(row: 1, section: 0));
-                        Task.init
-                        {
-                            await refreshData();
-                            updateAccessoryWithNothing(path: IndexPath(row: 1, section: 0), colour: UIColor.tintColor);
-                            updateLabelWithColour(path: IndexPath(row: 1, section: 0), colour: UIColor.tintColor);
-                        }
-                        
-                        return;
-                    }
-                break;
-                default:
-                    return;
-            }
-            
-            return;
-        }*/
-    }
-    
-    private func refreshData() async -> Void
-    {
-        let (minutes, steps, heartrate) = await HealthKitWrapper.refreshHealthKitData();
-        DispatchQueue.main.async
-        {
-            
 
+        // Retrieve CoreData
+        let storageContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "UploadSettings");
+        do
+        {
+            let appSettings = try storageContext.fetch(fetchRequest);
+            if appSettings.count > 0
+            {
+                self.appSettings = appSettings[0];
+                if let AWSKeyID = self.appSettings!.value(forKeyPath: "sAWSKeyID") as? String { self.awsKeyID.text = AWSKeyID; }
+                else { self.awsKeyID.text = ""; }
+                
+                if let AWSSecret = self.appSettings!.value(forKeyPath: "sAWSSecret") as? String { self.awsSecret.text = AWSSecret; }
+                else { self.awsSecret.text = ""; }
+                
+                if let AWSBucket = self.appSettings!.value(forKeyPath: "sAWSBucket") as? String { self.awsBucket.text = AWSBucket; }
+                else { self.awsBucket.text = ""; }
+                
+                if let AWSFile = self.appSettings!.value(forKeyPath: "sAWSFile") as? String { self.awsFile.text = AWSFile; }
+                else { self.awsFile.text = ""; }
+                
+                if let AWSInterval = self.appSettings!.value(forKeyPath: "iSyncInterval") as? Int16 { self.awsInterval.text = "\(AWSInterval)"; }
+                else { self.awsInterval.text = ""; }
+            }
         }
+        catch let error as NSError
+        {
+            guard error.description == "Foundation._GenericObjCError.nilError" else
+            {
+                self.throwErrorDialog(errorText: "Error retrieving App Data: \(error)");
+                return;
+            }
+        }
+    }
+    
+    // Save form changes to CoreData
+    @IBAction func saveChanges(_ sender: UIButton)
+    {
+        // Clear the width autoresizing option and display a spinner in the accessory section of the table cell
+        updateCellAccessoryActivityIndicator(tableCell: saveButtonCell);
+        if (sender.autoresizingMask.rawValue & 2) != 0
+        {
+            sender.autoresizingMask = UIView.AutoresizingMask(rawValue: sender.autoresizingMask.rawValue - 2);
+        }
+        
+        // Prevent user input to methods that could conflict while we are saving
+        ClearButtonCell.isUserInteractionEnabled = false;
+        syncButtonCell.isUserInteractionEnabled = false;
+        
+        // Check AWS Key ID
+        guard let AWSKeyID = awsKeyID.text, AWSKeyID.count > 0 else
+        {
+            self.throwErrorDialog(errorText: "Please provide a valid Key ID");
+            ClearButtonCell.isUserInteractionEnabled = true;
+            syncButtonCell.isUserInteractionEnabled = true;
+            clearCellAccessory(tableCell: saveButtonCell);
+            return;
+        }
+        
+        // Check AWS Secret
+        guard let AWSKeySecret = awsSecret.text, AWSKeySecret.count > 0 else
+        {
+            self.throwErrorDialog(errorText: "Please provide a valid Secret");
+            ClearButtonCell.isUserInteractionEnabled = true;
+            syncButtonCell.isUserInteractionEnabled = true;
+            clearCellAccessory(tableCell: saveButtonCell);
+            return;
+        }
+        
+        // Check Bucket Name
+        guard let AWSBucket = awsBucket.text, AWSBucket.count > 0 else
+        {
+            self.throwErrorDialog(errorText: "Please provide a valid Bucket Name");
+            ClearButtonCell.isUserInteractionEnabled = true;
+            syncButtonCell.isUserInteractionEnabled = true;
+            clearCellAccessory(tableCell: saveButtonCell);
+            return;
+        }
+        
+        // Check File Name
+        guard let FileName = awsFile.text, FileName.count > 0 else
+        {
+            self.throwErrorDialog(errorText: "Please provide a valid Filename");
+            ClearButtonCell.isUserInteractionEnabled = true;
+            syncButtonCell.isUserInteractionEnabled = true;
+            clearCellAccessory(tableCell: saveButtonCell);
+            return;
+        }
+        
+        // Check Interval
+        guard let Interval = awsInterval.text, Interval.count > 0, let iInterval = Int(Interval), iInterval >= 1, iInterval <= 1440 else
+        {
+            self.throwErrorDialog(errorText: "Please provide a valid Sync Interval in minutes, between 1 and 1440");
+            ClearButtonCell.isUserInteractionEnabled = true;
+            syncButtonCell.isUserInteractionEnabled = true;
+            clearCellAccessory(tableCell: saveButtonCell);
+            return;
+        }
+        
+        // Get CoreData Context
+        let storageContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
+        if appSettings == nil
+        {
+            let entity = NSEntityDescription.entity(forEntityName: "UploadSettings", in: storageContext)!
+            appSettings = NSManagedObject(entity: entity, insertInto: storageContext);
+        }
+        
+        // Update appSettings
+        appSettings!.setValue(AWSKeySecret, forKeyPath: "sAWSSecret");
+        appSettings!.setValue(iInterval, forKeyPath: "iSyncInterval");
+        appSettings!.setValue(AWSBucket, forKeyPath: "sAWSBucket");
+        appSettings!.setValue(AWSKeyID, forKeyPath: "sAWSKeyID");
+        appSettings!.setValue(FileName, forKeyPath: "sAWSFile");
+        
+        // Save changes
+        do
+        {
+            try storageContext.save();
+        }
+        catch let error as NSError
+        {
+            self.throwErrorDialog(errorText: "Error saving App Data: \(error)");
+            ClearButtonCell.isUserInteractionEnabled = true;
+            syncButtonCell.isUserInteractionEnabled = true;
+            clearCellAccessory(tableCell: saveButtonCell);
+            return;
+        }
+        
+        // Reset progress (Artificial delay as saving can be so quick the user gets no feedback)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2)
+        {
+            self.clearCellAccessory(tableCell: self.saveButtonCell);
+            self.ClearButtonCell.isUserInteractionEnabled = true;
+            self.syncButtonCell.isUserInteractionEnabled = true;
+        }
+    }
+    
+    @IBAction func resetSettings(_ sender: UIButton)
+    {
+        print("Pressed")
+    }
+    
+    @IBAction func syncNow(_ sender: UIButton)
+    {
+        print("Pressed")
     }
     
     private func throwErrorDialog(errorText: String)
@@ -129,59 +185,25 @@ class DataUploadController: UITableViewController
         self.present(failedAlert, animated: true, completion: nil);
     }
     
-    private func updateAccessoryWithActivityIndicator(path: IndexPath)
+    private func updateCellAccessoryActivityIndicator(tableCell: UITableViewCell)
     {
-        let healthKitCellWrap = tableView.cellForRow(at: path);
-        if let healthKitCell = healthKitCellWrap
-        {
-            // Create the ActivityIndicatorView
-            let activityIndicator = UIActivityIndicatorView();
-            activityIndicator.frame = CGRect(x: 0, y: 0, width: 24, height: 24);
-            
-            // Bind the view to the TableCell Accessory
-            healthKitCell.accessoryView = activityIndicator;
-            healthKitCell.isUserInteractionEnabled = false;
-            activityIndicator.startAnimating();
-        }
+        // Create the ActivityIndicatorView
+        let activityIndicator = UIActivityIndicatorView();
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 24, height: 24);
+        
+        // Bind the view to the TableCell Accessory
+        tableCell.tintColor = UIColor.secondaryLabel;
+        tableCell.accessoryView = activityIndicator;
+        tableCell.isUserInteractionEnabled = false;
+        activityIndicator.startAnimating();
     }
     
-    private func updateAccessoryWithCheck(path: IndexPath, colour: UIColor)
+    private func clearCellAccessory(tableCell: UITableViewCell)
     {
-        let healthKitCellWrap = tableView.cellForRow(at: path);
-        if let healthKitCell = healthKitCellWrap
-        {
-            healthKitCell.accessoryType = UITableViewCell.AccessoryType.checkmark;
-            healthKitCell.isUserInteractionEnabled = false;
-            healthKitCell.accessoryView = nil;
-            healthKitCell.tintColor = colour;
-            healthKitCell.isSelected = false;
-        }
-    }
-    
-    private func updateAccessoryWithNothing(path: IndexPath, colour: UIColor)
-    {
-        let healthKitCellWrap = tableView.cellForRow(at: path);
-        if let healthKitCell = healthKitCellWrap
-        {
-            healthKitCell.accessoryType = UITableViewCell.AccessoryType.none;
-            healthKitCell.isUserInteractionEnabled = true;
-            healthKitCell.accessoryView = nil;
-            healthKitCell.tintColor = colour;
-            healthKitCell.isSelected = false;
-        }
-    }
-    
-    private func updateLabelWithColour(path: IndexPath, colour: UIColor)
-    {
-        let healthKitCellWrap = tableView.cellForRow(at: path);
-        if let healthKitCell = healthKitCellWrap
-        {
-            if let cellLabel = healthKitCell.viewWithTag(1) as? UILabel
-            {
-                cellLabel.highlightedTextColor = colour;
-                cellLabel.isHighlighted = false;
-                cellLabel.textColor = colour;
-            }
-        }
+        // Clear the accessory type and reset the tint colour to default
+        tableCell.accessoryType = UITableViewCell.AccessoryType.none;
+        tableCell.isUserInteractionEnabled = true;
+        tableCell.accessoryView = nil;
+        tableCell.tintColor = .none;
     }
 }

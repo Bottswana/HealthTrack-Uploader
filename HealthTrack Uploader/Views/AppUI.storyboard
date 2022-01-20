@@ -291,20 +291,24 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="cmH-Nh-i0W" style="IBUITableViewCellStyleDefault" id="iqe-Ry-ohX">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="hDI-o2-gM5">
                                         <rect key="frame" x="0.0" y="132.00000190734863" width="414" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iqe-Ry-ohX" id="W2d-vc-mgr">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hDI-o2-gM5" id="esF-BM-Ebt">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Sync Now" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cmH-Nh-i0W">
-                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.666667938232422"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" systemColor="tintColor"/>
-                                                    <color key="highlightedColor" systemColor="tintColor"/>
-                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jLD-Mi-4St">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="Sync Now">
+                                                        <fontDescription key="titleFontDescription" type="system" pointSize="17"/>
+                                                    </buttonConfiguration>
+                                                    <connections>
+                                                        <action selector="syncNow:" destination="Jv8-iR-fhj" eventType="touchDown" id="Sf7-ko-hsA"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -347,7 +351,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="leading" contentVerticalAlignment="center" toolTip="AWS Key ID, usually an all uppercase alphanumeric string" placeholder="AWS Key ID" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IgQ-JM-JcZ">
+                                                <textField toolTip="AWS Key ID, usually an all uppercase alphanumeric string" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="AWS Key ID" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IgQ-JM-JcZ">
                                                     <rect key="frame" x="114" y="0.0" width="280" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -370,7 +374,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="leading" contentVerticalAlignment="center" toolTip="AWS Secret Key" placeholder="AWS Secret" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aSa-XK-GnO">
+                                                <textField toolTip="AWS Secret Key" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="AWS Secret" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aSa-XK-GnO">
                                                     <rect key="frame" x="114" y="0.0" width="280" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -393,7 +397,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="leading" contentVerticalAlignment="center" toolTip="AWS Secret Key" placeholder="AWS Bucket Name" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LYP-vZ-VVn">
+                                                <textField toolTip="AWS Secret Key" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="AWS Bucket Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LYP-vZ-VVn">
                                                     <rect key="frame" x="114" y="0.0" width="280" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -416,7 +420,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="leading" contentVerticalAlignment="center" toolTip="AWS Secret Key" placeholder="Upload Filename" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2y7-tS-LZS">
+                                                <textField toolTip="AWS Secret Key" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Upload Filename" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2y7-tS-LZS">
                                                     <rect key="frame" x="114" y="0.0" width="280" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -425,39 +429,77 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="P9G-Ys-Ibh" rowHeight="44" style="IBUITableViewCellStyleDefault" id="5sg-uE-cNr" userLabel="Save">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="44" id="0YU-c1-6Kw" userLabel="Interval">
                                         <rect key="frame" x="0.0" y="636.33333396911621" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0YU-c1-6Kw" id="FmO-U1-Wh1">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Interval" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VTY-lV-fVk">
+                                                    <rect key="frame" x="20" y="14" width="48" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField toolTip="Sync Interval in Minutes" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="leading" contentVerticalAlignment="center" text="60" placeholder="Sync Interval" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2qo-lw-o2l">
+                                                    <rect key="frame" x="114" y="0.0" width="280" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                                </textField>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="44" id="5sg-uE-cNr" userLabel="Save">
+                                        <rect key="frame" x="0.0" y="680.33333396911621" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5sg-uE-cNr" id="CEM-qG-fnc">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Save Changes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P9G-Ys-Ibh">
-                                                    <rect key="frame" x="20" y="0.0" width="374" height="44"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" systemColor="tintColor"/>
-                                                    <color key="highlightedColor" systemColor="tintColor"/>
-                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfL-dR-N5x">
+                                                    <rect key="frame" x="0.0" y="0.0" width="413" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="Save Changes">
+                                                        <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
+                                                    </buttonConfiguration>
+                                                    <connections>
+                                                        <action selector="saveChanges:" destination="Jv8-iR-fhj" eventType="touchDown" id="DMz-ud-IXg"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" button="YES"/>
+                                        </accessibility>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="7Nr-6r-K7B" rowHeight="44" style="IBUITableViewCellStyleDefault" id="PmW-eC-9ti" userLabel="Reset">
-                                        <rect key="frame" x="0.0" y="680.33333396911621" width="414" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="44" id="w4F-t0-3kA" userLabel="Reset">
+                                        <rect key="frame" x="0.0" y="724.33333396911621" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PmW-eC-9ti" id="Rut-Vc-z1s">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="w4F-t0-3kA" id="VpW-ty-0Mg">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Reset Data" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7Nr-6r-K7B">
-                                                    <rect key="frame" x="20" y="0.0" width="374" height="44"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" systemColor="systemRedColor"/>
-                                                    <color key="highlightedColor" systemColor="tintColor"/>
-                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hID-0j-WzF">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="Reset Settings">
+                                                        <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
+                                                        <color key="baseForegroundColor" systemColor="systemRedColor"/>
+                                                    </buttonConfiguration>
+                                                    <connections>
+                                                        <action selector="resetSettings:" destination="Jv8-iR-fhj" eventType="touchDown" id="sba-Yi-Lvh"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" button="YES"/>
+                                        </accessibility>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -469,12 +511,16 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Data Upload" id="7ip-kp-NGP"/>
                     <connections>
+                        <outlet property="ClearButtonCell" destination="w4F-t0-3kA" id="3hz-7M-zgA"/>
                         <outlet property="awsBucket" destination="LYP-vZ-VVn" id="NaV-yh-dRA"/>
                         <outlet property="awsFile" destination="2y7-tS-LZS" id="BSs-vO-xRk"/>
+                        <outlet property="awsInterval" destination="2qo-lw-o2l" id="3xo-ht-vz8"/>
                         <outlet property="awsKeyID" destination="IgQ-JM-JcZ" id="vTZ-ND-GRh"/>
                         <outlet property="awsSecret" destination="aSa-XK-GnO" id="zdS-yK-HWr"/>
                         <outlet property="lastUploadData" destination="kk9-3z-6sr" id="ydm-y7-UJ2"/>
                         <outlet property="lastUploadLabel" destination="3Ho-zj-CHW" id="wop-gf-Rga"/>
+                        <outlet property="saveButtonCell" destination="5sg-uE-cNr" id="vWt-bi-mMi"/>
+                        <outlet property="syncButtonCell" destination="hDI-o2-gM5" id="i19-9O-qSB"/>
                         <outlet property="uploadStateLabel" destination="Bhs-qZ-5cl" id="bm0-Im-7lG"/>
                     </connections>
                 </tableViewController>

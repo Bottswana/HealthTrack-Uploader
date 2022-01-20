@@ -10,6 +10,7 @@
 		1A57960627975F08002F10A5 /* AppUI.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A57960527975F08002F10A5 /* AppUI.storyboard */; };
 		1AB76540279842AD001FE9CC /* HealthDataControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB7653F279842AD001FE9CC /* HealthDataControler.swift */; };
 		1AED6C6F2799C450008D7B31 /* DataUploadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AED6C6E2799C450008D7B31 /* DataUploadController.swift */; };
+		1AED6C722799CD0E008D7B31 /* HealthTrack Uploader.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1AED6C702799CD0E008D7B31 /* HealthTrack Uploader.xcdatamodeld */; };
 		1AF4216D2797575E005A57B6 /* HealthTrack_UploaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF4216C2797575E005A57B6 /* HealthTrack_UploaderApp.swift */; };
 		1AF421712797575E005A57B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AF421702797575E005A57B6 /* Assets.xcassets */; };
 		1AF421742797575E005A57B6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AF421732797575E005A57B6 /* Preview Assets.xcassets */; };
@@ -21,6 +22,7 @@
 		1A57960527975F08002F10A5 /* AppUI.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppUI.storyboard; sourceTree = "<group>"; };
 		1AB7653F279842AD001FE9CC /* HealthDataControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataControler.swift; sourceTree = "<group>"; };
 		1AED6C6E2799C450008D7B31 /* DataUploadController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUploadController.swift; sourceTree = "<group>"; };
+		1AED6C712799CD0E008D7B31 /* HealthTrack Uploader.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HealthTrack Uploader.xcdatamodel"; sourceTree = "<group>"; };
 		1AF4216A2797575E005A57B6 /* HealthTrack Uploader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HealthTrack Uploader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AF4216C2797575E005A57B6 /* HealthTrack_UploaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTrack_UploaderApp.swift; sourceTree = "<group>"; };
 		1AF421702797575E005A57B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				1AB7653E2798425C001FE9CC /* Views */,
 				1A57960427975E5C002F10A5 /* View Controllers */,
 				1AF421782797579E005A57B6 /* HealthTrack Uploader.entitlements */,
+				1AED6C702799CD0E008D7B31 /* HealthTrack Uploader.xcdatamodeld */,
 				1AF4216C2797575E005A57B6 /* HealthTrack_UploaderApp.swift */,
 				1AF421702797575E005A57B6 /* Assets.xcassets */,
 				1AF421722797575E005A57B6 /* Preview Content */,
@@ -189,6 +192,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AED6C6F2799C450008D7B31 /* DataUploadController.swift in Sources */,
+				1AED6C722799CD0E008D7B31 /* HealthTrack Uploader.xcdatamodeld in Sources */,
 				1AF4217C279758E3005A57B6 /* HealthKitWrapper.swift in Sources */,
 				1AB76540279842AD001FE9CC /* HealthDataControler.swift in Sources */,
 				1AF4216D2797575E005A57B6 /* HealthTrack_UploaderApp.swift in Sources */,
@@ -408,6 +412,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		1AED6C702799CD0E008D7B31 /* HealthTrack Uploader.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1AED6C712799CD0E008D7B31 /* HealthTrack Uploader.xcdatamodel */,
+			);
+			currentVersion = 1AED6C712799CD0E008D7B31 /* HealthTrack Uploader.xcdatamodel */;
+			path = "HealthTrack Uploader.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = AC1BA5041EAE5D2F00C99FE3 /* Project object */;
 }
