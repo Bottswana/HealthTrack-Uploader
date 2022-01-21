@@ -12,7 +12,7 @@ import UIKit
 
 class DataUploadController: UITableViewController
 {
-    @IBOutlet var ClearButtonCell: UITableViewCell!;
+    @IBOutlet var clearButtonCell: UITableViewCell!;
     @IBOutlet var syncButtonCell: UITableViewCell!;
     @IBOutlet var saveButtonCell: UITableViewCell!;
     @IBOutlet var lastUploadData: UITextView!
@@ -33,28 +33,51 @@ class DataUploadController: UITableViewController
 
         // Retrieve CoreData
         let storageContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "UploadSettings");
+        let settingsRequest = NSFetchRequest<NSManagedObject>(entityName: "UploadSettings");
+        let uploadRequest = NSFetchRequest<NSManagedObject>(entityName: "LastUpload");
         do
         {
-            let appSettings = try storageContext.fetch(fetchRequest);
-            if appSettings.count > 0
+            // Load AppSettings from CoreData
+            let appSettings = try storageContext.fetch(settingsRequest);
+            guard appSettings.count > 0 else
             {
-                self.appSettings = appSettings[0];
-                if let AWSKeyID = self.appSettings!.value(forKeyPath: "sAWSKeyID") as? String { self.awsKeyID.text = AWSKeyID; }
-                else { self.awsKeyID.text = ""; }
-                
-                if let AWSSecret = self.appSettings!.value(forKeyPath: "sAWSSecret") as? String { self.awsSecret.text = AWSSecret; }
-                else { self.awsSecret.text = ""; }
-                
-                if let AWSBucket = self.appSettings!.value(forKeyPath: "sAWSBucket") as? String { self.awsBucket.text = AWSBucket; }
-                else { self.awsBucket.text = ""; }
-                
-                if let AWSFile = self.appSettings!.value(forKeyPath: "sAWSFile") as? String { self.awsFile.text = AWSFile; }
-                else { self.awsFile.text = ""; }
-                
-                if let AWSInterval = self.appSettings!.value(forKeyPath: "iSyncInterval") as? Int16 { self.awsInterval.text = "\(AWSInterval)"; }
-                else { self.awsInterval.text = ""; }
+                // Update UI to disable sync options when we do not have AWS configuration
+                syncButtonCell.tintColor = UIColor.secondaryLabel;
+                syncButtonCell.isUserInteractionEnabled = false;
+                uploadStateLabel.text = "Not Configured";
+                lastUploadLabel.text = "N/A";
+                lastUploadData.text = "N/A";
+                return;
             }
+            
+            // Update UI with AppSettings
+            self.appSettings = appSettings[0];
+            if let AWSKeyID = self.appSettings!.value(forKeyPath: "sAWSKeyID") as? String { self.awsKeyID.text = AWSKeyID; }
+            else { self.awsKeyID.text = ""; }
+            
+            if let AWSSecret = self.appSettings!.value(forKeyPath: "sAWSSecret") as? String { self.awsSecret.text = AWSSecret; }
+            else { self.awsSecret.text = ""; }
+            
+            if let AWSBucket = self.appSettings!.value(forKeyPath: "sAWSBucket") as? String { self.awsBucket.text = AWSBucket; }
+            else { self.awsBucket.text = ""; }
+            
+            if let AWSFile = self.appSettings!.value(forKeyPath: "sAWSFile") as? String { self.awsFile.text = AWSFile; }
+            else { self.awsFile.text = ""; }
+            
+            if let AWSInterval = self.appSettings!.value(forKeyPath: "iSyncInterval") as? Int16 { self.awsInterval.text = "\(AWSInterval)"; }
+            else { self.awsInterval.text = ""; }
+            
+            // See if we have any data for a last upload attempt
+            let uploadData = try storageContext.fetch(uploadRequest);
+            guard uploadData.count > 0 else
+            {
+                // No data from the background worker yet
+                uploadStateLabel.text = "Waiting for background sync";
+                lastUploadLabel.text = "No Data";
+                lastUploadData.text = "No Data";
+                return;
+            }
+            
         }
         catch let error as NSError
         {
@@ -77,14 +100,14 @@ class DataUploadController: UITableViewController
         }
         
         // Prevent user input to methods that could conflict while we are saving
-        ClearButtonCell.isUserInteractionEnabled = false;
+        clearButtonCell.isUserInteractionEnabled = false;
         syncButtonCell.isUserInteractionEnabled = false;
         
         // Check AWS Key ID
         guard let AWSKeyID = awsKeyID.text, AWSKeyID.count > 0 else
         {
             self.throwErrorDialog(errorText: "Please provide a valid Key ID");
-            ClearButtonCell.isUserInteractionEnabled = true;
+            clearButtonCell.isUserInteractionEnabled = true;
             syncButtonCell.isUserInteractionEnabled = true;
             clearCellAccessory(tableCell: saveButtonCell);
             return;
@@ -94,7 +117,7 @@ class DataUploadController: UITableViewController
         guard let AWSKeySecret = awsSecret.text, AWSKeySecret.count > 0 else
         {
             self.throwErrorDialog(errorText: "Please provide a valid Secret");
-            ClearButtonCell.isUserInteractionEnabled = true;
+            clearButtonCell.isUserInteractionEnabled = true;
             syncButtonCell.isUserInteractionEnabled = true;
             clearCellAccessory(tableCell: saveButtonCell);
             return;
@@ -104,7 +127,7 @@ class DataUploadController: UITableViewController
         guard let AWSBucket = awsBucket.text, AWSBucket.count > 0 else
         {
             self.throwErrorDialog(errorText: "Please provide a valid Bucket Name");
-            ClearButtonCell.isUserInteractionEnabled = true;
+            clearButtonCell.isUserInteractionEnabled = true;
             syncButtonCell.isUserInteractionEnabled = true;
             clearCellAccessory(tableCell: saveButtonCell);
             return;
@@ -114,7 +137,7 @@ class DataUploadController: UITableViewController
         guard let FileName = awsFile.text, FileName.count > 0 else
         {
             self.throwErrorDialog(errorText: "Please provide a valid Filename");
-            ClearButtonCell.isUserInteractionEnabled = true;
+            clearButtonCell.isUserInteractionEnabled = true;
             syncButtonCell.isUserInteractionEnabled = true;
             clearCellAccessory(tableCell: saveButtonCell);
             return;
@@ -124,7 +147,7 @@ class DataUploadController: UITableViewController
         guard let Interval = awsInterval.text, Interval.count > 0, let iInterval = Int(Interval), iInterval >= 1, iInterval <= 1440 else
         {
             self.throwErrorDialog(errorText: "Please provide a valid Sync Interval in minutes, between 1 and 1440");
-            ClearButtonCell.isUserInteractionEnabled = true;
+            clearButtonCell.isUserInteractionEnabled = true;
             syncButtonCell.isUserInteractionEnabled = true;
             clearCellAccessory(tableCell: saveButtonCell);
             return;
@@ -152,8 +175,8 @@ class DataUploadController: UITableViewController
         }
         catch let error as NSError
         {
-            self.throwErrorDialog(errorText: "Error saving App Data: \(error)");
-            ClearButtonCell.isUserInteractionEnabled = true;
+            self.throwErrorDialog(errorText: "Error saving AppData: \(error)");
+            clearButtonCell.isUserInteractionEnabled = true;
             syncButtonCell.isUserInteractionEnabled = true;
             clearCellAccessory(tableCell: saveButtonCell);
             return;
@@ -162,20 +185,95 @@ class DataUploadController: UITableViewController
         // Reset progress (Artificial delay as saving can be so quick the user gets no feedback)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2)
         {
+            // Return 'Save Changes' button to standard configuration
             self.clearCellAccessory(tableCell: self.saveButtonCell);
-            self.ClearButtonCell.isUserInteractionEnabled = true;
+            self.clearButtonCell.isUserInteractionEnabled = true;
+            
+            // Enable the Sync Options
+            self.syncButtonCell.tintColor = .none;
             self.syncButtonCell.isUserInteractionEnabled = true;
+            self.uploadStateLabel.text = "Waiting for background sync";
+            self.lastUploadLabel.text = "No Data";
+            self.lastUploadData.text = "No Data";
         }
     }
     
     @IBAction func resetSettings(_ sender: UIButton)
     {
-        print("Pressed")
+        // Clear the width autoresizing option and display a spinner in the accessory section of the table cell
+        updateCellAccessoryActivityIndicator(tableCell: clearButtonCell);
+        if (sender.autoresizingMask.rawValue & 2) != 0
+        {
+            sender.autoresizingMask = UIView.AutoresizingMask(rawValue: sender.autoresizingMask.rawValue - 2);
+        }
+        
+        // Prevent user input to methods that could conflict while we are saving
+        saveButtonCell.isUserInteractionEnabled = false;
+        syncButtonCell.isUserInteractionEnabled = false;
+        
+        // Get CoreData Context
+        let storageContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
+        guard let appSettings = appSettings else
+        {
+            saveButtonCell.isUserInteractionEnabled = true;
+            syncButtonCell.isUserInteractionEnabled = true;
+            clearCellAccessory(tableCell: clearButtonCell);
+            return;
+        }
+        
+        // Delete settings data from CoreData
+        do
+        {
+            storageContext.delete(appSettings);
+            try storageContext.save();
+        }
+        catch let error as NSError
+        {
+            self.throwErrorDialog(errorText: "Error clearing AppData: \(error)");
+            saveButtonCell.isUserInteractionEnabled = true;
+            syncButtonCell.isUserInteractionEnabled = true;
+            clearCellAccessory(tableCell: clearButtonCell);
+            return;
+        }
+        
+        // Reset progress (Artificial delay as saving can be so quick the user gets no feedback)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2)
+        {
+            // Return 'Reset Settings' button to standard configuration
+            self.clearCellAccessory(tableCell: self.clearButtonCell);
+            self.saveButtonCell.isUserInteractionEnabled = true;
+            
+            // Enable the Sync Options
+            self.syncButtonCell.tintColor = UIColor.secondaryLabel;
+            self.syncButtonCell.isUserInteractionEnabled = false;
+            self.uploadStateLabel.text = "Not Configured";
+            self.lastUploadLabel.text = "N/A";
+            self.lastUploadData.text = "N/A";
+            
+            // Clear all the data in the AWS Fields
+            self.awsInterval.text = "";
+            self.awsSecret.text = "";
+            self.awsBucket.text = "";
+            self.awsKeyID.text = "";
+            self.awsFile.text = "";
+        }
     }
     
     @IBAction func syncNow(_ sender: UIButton)
     {
-        print("Pressed")
+        // Clear the width autoresizing option and display a spinner in the accessory section of the table cell
+        updateCellAccessoryActivityIndicator(tableCell: syncButtonCell);
+        if (sender.autoresizingMask.rawValue & 2) != 0
+        {
+            sender.autoresizingMask = UIView.AutoresizingMask(rawValue: sender.autoresizingMask.rawValue - 2);
+        }
+        
+        // Reset progress (Artificial delay as saving can be so quick the user gets no feedback)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0)
+        {
+            // Return 'Sync Now' button to standard configuration
+            self.clearCellAccessory(tableCell: self.syncButtonCell);
+        }
     }
     
     private func throwErrorDialog(errorText: String)

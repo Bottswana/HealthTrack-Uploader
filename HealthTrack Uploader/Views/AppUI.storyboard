@@ -103,37 +103,45 @@
                         <sections>
                             <tableViewSection id="YSR-is-5nS" userLabel="Buttons">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="right" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="g1U-up-1sA" style="IBUITableViewCellStyleDefault" id="4tC-V6-X9Z">
-                                        <rect key="frame" x="0.0" y="44.666666030883789" width="414" height="43.666667938232422"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="44" id="e81-JK-faG">
+                                        <rect key="frame" x="0.0" y="44.666666030883789" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" contentMode="right" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4tC-V6-X9Z" id="BGD-N5-VqF">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="e81-JK-faG" id="aoG-yY-ZIt">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" tag="1" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Authorise HealthKit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="g1U-up-1sA">
-                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.666667938232422"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" systemColor="tintColor"/>
-                                                    <color key="highlightedColor" systemColor="tintColor"/>
-                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DvG-61-Hpc">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="Authorise HealthKit">
+                                                        <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
+                                                    </buttonConfiguration>
+                                                    <connections>
+                                                        <action selector="authoriseHealthKit:" destination="Cor-PU-JUh" eventType="touchDown" id="tQr-lZ-iaB"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="1OW-pB-5dA" style="IBUITableViewCellStyleDefault" id="UkL-fv-ys9">
-                                        <rect key="frame" x="0.0" y="88.333333969116211" width="414" height="43.666667938232422"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="44" id="3jQ-Hl-qHF">
+                                        <rect key="frame" x="0.0" y="88.666666030883789" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UkL-fv-ys9" id="R9J-fl-n2s">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3jQ-Hl-qHF" id="0t2-0i-42l">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" tag="1" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Refresh Data" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1OW-pB-5dA">
-                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.666667938232422"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <color key="highlightedColor" systemColor="secondaryLabelColor"/>
-                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2UM-xZ-RW0">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="Refresh Data">
+                                                        <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
+                                                    </buttonConfiguration>
+                                                    <connections>
+                                                        <action selector="refreshData:" destination="Cor-PU-JUh" eventType="touchDown" id="irg-gW-Ehw"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -142,7 +150,7 @@
                             <tableViewSection headerTitle="Current Health Data" id="eo8-9n-B4H">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="HXt-UF-x1i" detailTextLabel="VVp-AC-p9V" style="IBUITableViewCellStyleValue1" id="KZf-HA-aH4">
-                                        <rect key="frame" x="0.0" y="199.33333396911624" width="414" height="43.666667938232422"/>
+                                        <rect key="frame" x="0.0" y="199.9999980926514" width="414" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KZf-HA-aH4" id="lOK-HM-uFb">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
@@ -166,7 +174,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="aY8-HH-1Ve" detailTextLabel="JAr-IS-N6h" style="IBUITableViewCellStyleValue1" id="lnJ-YY-cuA">
-                                        <rect key="frame" x="0.0" y="243.00000190734863" width="414" height="43.666667938232422"/>
+                                        <rect key="frame" x="0.0" y="243.66666603088379" width="414" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lnJ-YY-cuA" id="kJl-g2-f0Z">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
@@ -190,7 +198,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="NH8-sI-TAI" detailTextLabel="3fD-S1-Cey" style="IBUITableViewCellStyleValue1" id="KKH-Eo-Oh8">
-                                        <rect key="frame" x="0.0" y="286.66666984558105" width="414" height="43.666667938232422"/>
+                                        <rect key="frame" x="0.0" y="287.33333396911621" width="414" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KKH-Eo-Oh8" id="syn-Xv-hdT">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
@@ -223,7 +231,9 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Health Data" id="G04-Tt-Yy0"/>
                     <connections>
+                        <outlet property="authoriseButtonCell" destination="e81-JK-faG" id="Se5-q1-fpt"/>
                         <outlet property="exerciseMinutes" destination="JAr-IS-N6h" id="3ti-xI-Xcs"/>
+                        <outlet property="refreshButtonCell" destination="3jQ-Hl-qHF" id="aTt-bG-4CT"/>
                         <outlet property="restingHeartRate" destination="VVp-AC-p9V" id="MFh-sf-ZRT"/>
                         <outlet property="stepCount" destination="3fD-S1-Cey" id="rAg-dR-Adv"/>
                     </connections>
@@ -303,7 +313,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" title="Sync Now">
-                                                        <fontDescription key="titleFontDescription" type="system" pointSize="17"/>
+                                                        <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
                                                     </buttonConfiguration>
                                                     <connections>
                                                         <action selector="syncNow:" destination="Jv8-iR-fhj" eventType="touchDown" id="Sf7-ko-hsA"/>
@@ -338,7 +348,7 @@
                             <tableViewSection headerTitle="AWS Configuration" id="OlR-d0-ped">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="44" id="1JH-zf-7vR" userLabel="KeyID">
-                                        <rect key="frame" x="0.0" y="460.33333396911621" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="460.33333396911627" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1JH-zf-7vR" id="DOL-LD-0Pg">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
@@ -511,12 +521,12 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Data Upload" id="7ip-kp-NGP"/>
                     <connections>
-                        <outlet property="ClearButtonCell" destination="w4F-t0-3kA" id="3hz-7M-zgA"/>
                         <outlet property="awsBucket" destination="LYP-vZ-VVn" id="NaV-yh-dRA"/>
                         <outlet property="awsFile" destination="2y7-tS-LZS" id="BSs-vO-xRk"/>
                         <outlet property="awsInterval" destination="2qo-lw-o2l" id="3xo-ht-vz8"/>
                         <outlet property="awsKeyID" destination="IgQ-JM-JcZ" id="vTZ-ND-GRh"/>
                         <outlet property="awsSecret" destination="aSa-XK-GnO" id="zdS-yK-HWr"/>
+                        <outlet property="clearButtonCell" destination="w4F-t0-3kA" id="DCN-O9-l4z"/>
                         <outlet property="lastUploadData" destination="kk9-3z-6sr" id="ydm-y7-UJ2"/>
                         <outlet property="lastUploadLabel" destination="3Ho-zj-CHW" id="wop-gf-Rga"/>
                         <outlet property="saveButtonCell" destination="5sg-uE-cNr" id="vWt-bi-mMi"/>
@@ -538,9 +548,6 @@
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21C52" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="LastUpload" representedClassName="LastUpload" syncable="YES" codeGenerationType="class">
+        <attribute name="dLastUploadTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="iLastUploadState" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sLastUploadData" optional="YES" attributeType="String"/>
+        <attribute name="sUploadResultDetail" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="UploadSettings" representedClassName="UploadSettings" syncable="YES" codeGenerationType="class">
         <attribute name="iSyncInterval" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="sAWSBucket" optional="YES" attributeType="String"/>
@@ -9,5 +15,6 @@
     </entity>
     <elements>
         <element name="UploadSettings" positionX="-63" positionY="-18" width="128" height="104"/>
+        <element name="LastUpload" positionX="-63" positionY="18" width="128" height="89"/>
     </elements>
 </model>

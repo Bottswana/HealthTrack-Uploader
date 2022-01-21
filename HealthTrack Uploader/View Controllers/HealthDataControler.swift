@@ -11,6 +11,8 @@ import UIKit
 
 class HealthDataController: UITableViewController
 {
+    @IBOutlet var authoriseButtonCell: UITableViewCell!;
+    @IBOutlet var refreshButtonCell: UITableViewCell!;
     @IBOutlet var restingHeartRate: UILabel!
     @IBOutlet var exerciseMinutes: UILabel!
     @IBOutlet var stepCount: UILabel!
@@ -25,80 +27,88 @@ class HealthDataController: UITableViewController
             let authStatus = await HealthKitWrapper.isAuthorised();
             if( authStatus )
             {
-                // Update the view to match that we don't need to request authorisation again
-                updateViewHealthKitAuthorised();
+                // Already authorised
+                updateCellAccessoryActivityIndicator(tableCell: authoriseButtonCell);
+                clearCellAccessory(tableCell: refreshButtonCell);
+                authoriseButtonCell.accessoryView = nil;
+                isAuthorised = true;
                 await refreshData();
+            }
+            else
+            {
+                // Not authorised
+                updateCellAccessoryActivityIndicator(tableCell: refreshButtonCell);
+                refreshButtonCell.accessoryView = nil;
             }
         }
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    @IBAction func authoriseHealthKit(_ sender: UIButton)
     {
-        guard ( indexPath.section != 0 ) else
+        if !isAuthorised
         {
-            switch indexPath.row
+            // Clear the width autoresizing option and display a spinner in the accessory section of the table cell
+            updateCellAccessoryActivityIndicator(tableCell: authoriseButtonCell);
+            if (sender.autoresizingMask.rawValue & 2) != 0
             {
-                case 0:
-                    // Authorise HealthKit Button
-                    guard isAuthorised else
-                    {
-                        updateLabelWithColour(path: IndexPath(row: 0, section: 0), colour: UIColor.secondaryLabel);
-                        updateAccessoryWithActivityIndicator(path: IndexPath(row: 0, section: 0));
-                        isAuthorised = true;
-                        Task.init
-                        {
-                            do
-                            {
-                                try await HealthKitWrapper.authoriseHealthKit();
-                                updateViewHealthKitAuthorised();
-                            }
-                            catch HealthKitWrapper.HealthKitSetupError.dataTypeNotAvailable
-                            {
-                                throwErrorDialog(errorText: "Authorization of HealthKit failed:\nThis device does not support the required data");
-                                updateAccessoryWithNothing(path: IndexPath(row: 0, section: 0), colour: UIColor.tintColor);
-                                updateLabelWithColour(path: IndexPath(row: 0, section: 0), colour: UIColor.tintColor);
-                                isAuthorised = false;
-                            }
-                            catch HealthKitWrapper.HealthKitSetupError.notAvailableOnDevice
-                            {
-                                throwErrorDialog(errorText: "Authorization of HealthKit failed:\nThis device does not support HealthKit");
-                                updateAccessoryWithNothing(path: IndexPath(row: 0, section: 0), colour: UIColor.tintColor);
-                                updateLabelWithColour(path: IndexPath(row: 0, section: 0), colour: UIColor.tintColor);
-                                isAuthorised = false;
-                            }
-                            catch
-                            {
-                                throwErrorDialog(errorText: "Authorization of HealthKit failed:\n\(error)");
-                                updateAccessoryWithNothing(path: IndexPath(row: 0, section: 0), colour: UIColor.tintColor);
-                                updateLabelWithColour(path: IndexPath(row: 0, section: 0), colour: UIColor.tintColor);
-                                isAuthorised = false;
-                            }
-                        }
-                        
-                        return;
-                    }
-                break;
-                case 1:
-                    // Refresh Data
-                    guard !isAuthorised else
-                    {
-                        updateLabelWithColour(path: IndexPath(row: 1, section: 0), colour: UIColor.secondaryLabel);
-                        updateAccessoryWithActivityIndicator(path: IndexPath(row: 1, section: 0));
-                        Task.init
-                        {
-                            await refreshData();
-                            updateAccessoryWithNothing(path: IndexPath(row: 1, section: 0), colour: UIColor.tintColor);
-                            updateLabelWithColour(path: IndexPath(row: 1, section: 0), colour: UIColor.tintColor);
-                        }
-                        
-                        return;
-                    }
-                break;
-                default:
-                    return;
+                sender.autoresizingMask = UIView.AutoresizingMask(rawValue: sender.autoresizingMask.rawValue - 2);
             }
             
-            return;
+            // Trigger HealthKit Authorisation
+            isAuthorised = true;
+            Task.init
+            {
+                do
+                {
+                    try await HealthKitWrapper.authoriseHealthKit();
+                    clearCellAccessory(tableCell: refreshButtonCell);
+                    authoriseButtonCell.accessoryView = nil;
+                }
+                catch HealthKitWrapper.HealthKitSetupError.dataTypeNotAvailable
+                {
+                    throwErrorDialog(errorText: "Authorization of HealthKit failed:\nThis device does not support the required data");
+                    clearCellAccessory(tableCell: authoriseButtonCell);
+                    isAuthorised = false;
+                }
+                catch HealthKitWrapper.HealthKitSetupError.notAvailableOnDevice
+                {
+                    throwErrorDialog(errorText: "Authorization of HealthKit failed:\nThis device does not support HealthKit");
+                    clearCellAccessory(tableCell: authoriseButtonCell);
+                    isAuthorised = false;
+                }
+                catch
+                {
+                    throwErrorDialog(errorText: "Authorization of HealthKit failed:\n\(error)");
+                    clearCellAccessory(tableCell: authoriseButtonCell);
+                    isAuthorised = false;
+                }
+            }
+        }
+    }
+    
+    @IBAction func refreshData(_ sender: UIButton)
+    {
+        if isAuthorised
+        {
+            // Clear the width autoresizing option and display a spinner in the accessory section of the table cell
+            updateCellAccessoryActivityIndicator(tableCell: refreshButtonCell);
+            if (sender.autoresizingMask.rawValue & 2) != 0
+            {
+                sender.autoresizingMask = UIView.AutoresizingMask(rawValue: sender.autoresizingMask.rawValue - 2);
+            }
+        
+            // Refresh HealthKit Data
+            Task.init
+            {
+                await refreshData();
+                
+                // Reset progress (Artificial delay as saving can be so quick the user gets no feedback)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2)
+                {
+                    // Return button to standard configuration
+                    self.clearCellAccessory(tableCell: self.refreshButtonCell);
+                }
+            }
         }
     }
     
@@ -125,71 +135,25 @@ class HealthDataController: UITableViewController
         self.present(failedAlert, animated: true, completion: nil);
     }
     
-    private func updateAccessoryWithActivityIndicator(path: IndexPath)
+    private func updateCellAccessoryActivityIndicator(tableCell: UITableViewCell)
     {
-        let healthKitCellWrap = tableView.cellForRow(at: path);
-        if let healthKitCell = healthKitCellWrap
-        {
-            // Create the ActivityIndicatorView
-            let activityIndicator = UIActivityIndicatorView();
-            activityIndicator.frame = CGRect(x: 0, y: 0, width: 24, height: 24);
-            
-            // Bind the view to the TableCell Accessory
-            healthKitCell.accessoryView = activityIndicator;
-            healthKitCell.isUserInteractionEnabled = false;
-            activityIndicator.startAnimating();
-        }
-    }
-    
-    private func updateAccessoryWithCheck(path: IndexPath, colour: UIColor)
-    {
-        let healthKitCellWrap = tableView.cellForRow(at: path);
-        if let healthKitCell = healthKitCellWrap
-        {
-            healthKitCell.accessoryType = UITableViewCell.AccessoryType.checkmark;
-            healthKitCell.isUserInteractionEnabled = false;
-            healthKitCell.accessoryView = nil;
-            healthKitCell.tintColor = colour;
-            healthKitCell.isSelected = false;
-        }
-    }
-    
-    private func updateAccessoryWithNothing(path: IndexPath, colour: UIColor)
-    {
-        let healthKitCellWrap = tableView.cellForRow(at: path);
-        if let healthKitCell = healthKitCellWrap
-        {
-            healthKitCell.accessoryType = UITableViewCell.AccessoryType.none;
-            healthKitCell.isUserInteractionEnabled = true;
-            healthKitCell.accessoryView = nil;
-            healthKitCell.tintColor = colour;
-            healthKitCell.isSelected = false;
-        }
-    }
-    
-    private func updateLabelWithColour(path: IndexPath, colour: UIColor)
-    {
-        let healthKitCellWrap = tableView.cellForRow(at: path);
-        if let healthKitCell = healthKitCellWrap
-        {
-            if let cellLabel = healthKitCell.viewWithTag(1) as? UILabel
-            {
-                cellLabel.highlightedTextColor = colour;
-                cellLabel.isHighlighted = false;
-                cellLabel.textColor = colour;
-            }
-        }
-    }
-    
-    private func updateViewHealthKitAuthorised()
-    {
-        // Update HealthKit button
-        updateAccessoryWithCheck(path: IndexPath(row: 0, section: 0), colour: UIColor.secondaryLabel);
-        updateLabelWithColour(path: IndexPath(row: 0, section: 0), colour: UIColor.secondaryLabel);
+        // Create the ActivityIndicatorView
+        let activityIndicator = UIActivityIndicatorView();
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 24, height: 24);
         
-        // Update Sync Button
-        updateAccessoryWithNothing(path: IndexPath(row: 1, section: 0), colour: UIColor.tintColor);
-        updateLabelWithColour(path: IndexPath(row: 1, section: 0), colour: UIColor.tintColor);
-        isAuthorised = true;
+        // Bind the view to the TableCell Accessory
+        tableCell.tintColor = UIColor.secondaryLabel;
+        tableCell.accessoryView = activityIndicator;
+        tableCell.isUserInteractionEnabled = false;
+        activityIndicator.startAnimating();
+    }
+    
+    private func clearCellAccessory(tableCell: UITableViewCell)
+    {
+        // Clear the accessory type and reset the tint colour to default
+        tableCell.accessoryType = UITableViewCell.AccessoryType.none;
+        tableCell.isUserInteractionEnabled = true;
+        tableCell.accessoryView = nil;
+        tableCell.tintColor = .none;
     }
 }
