@@ -34,7 +34,6 @@ class DataUploadController: UITableViewController
         // Retrieve CoreData
         let storageContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
         let settingsRequest = NSFetchRequest<NSManagedObject>(entityName: "UploadSettings");
-        let uploadRequest = NSFetchRequest<NSManagedObject>(entityName: "LastUpload");
         do
         {
             // Load AppSettings from CoreData
@@ -67,16 +66,8 @@ class DataUploadController: UITableViewController
             if let AWSInterval = self.appSettings!.value(forKeyPath: "iSyncInterval") as? Int16 { self.awsInterval.text = "\(AWSInterval)"; }
             else { self.awsInterval.text = ""; }
             
-            // See if we have any data for a last upload attempt
-            let uploadData = try storageContext.fetch(uploadRequest);
-            guard uploadData.count > 0 else
-            {
-                // No data from the background worker yet
-                uploadStateLabel.text = "Waiting for background sync";
-                lastUploadLabel.text = "No Data";
-                lastUploadData.text = "No Data";
-                return;
-            }
+            // Reload upload status
+            reloadStatus();
             
         }
         catch let error as NSError
@@ -182,6 +173,17 @@ class DataUploadController: UITableViewController
             return;
         }
         
+        // Attempt to flush AWS Config if it exists
+        do
+        {
+            let uploadClass = try FileUploader();
+            uploadClass.clearAWSConfig();
+        }
+        catch
+        {
+            print("AWS config could not be flushed");
+        }
+        
         // Reset progress (Artificial delay as saving can be so quick the user gets no feedback)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2)
         {
@@ -192,9 +194,8 @@ class DataUploadController: UITableViewController
             // Enable the Sync Options
             self.syncButtonCell.tintColor = .none;
             self.syncButtonCell.isUserInteractionEnabled = true;
-            self.uploadStateLabel.text = "Waiting for background sync";
-            self.lastUploadLabel.text = "No Data";
-            self.lastUploadData.text = "No Data";
+            self.syncButtonCell.tintColor = .none;
+            self.reloadStatus();
         }
     }
     
@@ -224,6 +225,21 @@ class DataUploadController: UITableViewController
         // Delete settings data from CoreData
         do
         {
+            do
+            {
+                // See if we have any data for a last upload attempt
+                let uploadRequest = NSFetchRequest<NSManagedObject>(entityName: "LastUpload");
+                let uploadData = try storageContext.fetch(uploadRequest);
+                if uploadData.count > 0
+                {
+                    storageContext.delete(uploadData[0]);
+                }
+            }
+            catch
+            {
+                print("No LastUpload element to delete from CoreData");
+            }
+            
             storageContext.delete(appSettings);
             try storageContext.save();
         }
@@ -234,6 +250,17 @@ class DataUploadController: UITableViewController
             syncButtonCell.isUserInteractionEnabled = true;
             clearCellAccessory(tableCell: clearButtonCell);
             return;
+        }
+        
+        // Attempt to flush AWS Config if it exists
+        do
+        {
+            let uploadClass = try FileUploader();
+            uploadClass.clearAWSConfig();
+        }
+        catch
+        {
+            print("AWS config could not be flushed");
         }
         
         // Reset progress (Artificial delay as saving can be so quick the user gets no feedback)
@@ -268,11 +295,112 @@ class DataUploadController: UITableViewController
             sender.autoresizingMask = UIView.AutoresizingMask(rawValue: sender.autoresizingMask.rawValue - 2);
         }
         
-        // Reset progress (Artificial delay as saving can be so quick the user gets no feedback)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0)
+        Task.init
         {
-            // Return 'Sync Now' button to standard configuration
-            self.clearCellAccessory(tableCell: self.syncButtonCell);
+            // Create upload data structure
+            let (activeMinutes, numberSteps, restingHeartRate) = await HealthKitWrapper.refreshHealthKitData();
+            let jsonResults = FileUploader.JSONDocument(numberSteps: numberSteps, activeMinutes: activeMinutes, restingHeartRate: restingHeartRate);
+
+            // Format data as a JSON String
+            let encoder = JSONEncoder();
+            encoder.outputFormatting = .prettyPrinted;
+            let jsonData = try encoder.encode(jsonResults);
+
+            do
+            {
+                // Create AWS class and trigger upload
+                let uploadClass = try FileUploader();
+                try await uploadClass.uploadFile(uploadData: jsonData);
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2)
+                {
+                    // Return 'Sync Now' button to standard configuration
+                    self.clearCellAccessory(tableCell: self.syncButtonCell);
+                    self.reloadStatus();
+                }
+            }
+            catch
+            {
+                DispatchQueue.main.async
+                {
+                    let storageContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
+                    let uploadRequest = NSFetchRequest<NSManagedObject>(entityName: "LastUpload");
+                    do
+                    {
+                        // See if we can get a more useful error message
+                        let uploadData = try storageContext.fetch(uploadRequest);
+                        let uploadError = uploadData[0].value(forKeyPath: "sUploadResultDetail") as? String ?? error.localizedDescription;
+                        self.throwErrorDialog(errorText: "Error uploading:\n\(uploadError)");
+                    }
+                    catch
+                    {
+                        // Show generic enum error message
+                        self.throwErrorDialog(errorText: "Error uploading:\n\(error)");
+                    }
+                    
+                    self.clearCellAccessory(tableCell: self.syncButtonCell);
+                }
+            }
+        }
+    }
+    
+    private func reloadStatus() -> Void
+    {
+        // Retrieve CoreData
+        let storageContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
+        let uploadRequest = NSFetchRequest<NSManagedObject>(entityName: "LastUpload");
+        do
+        {
+            // See if we have any data for a last upload attempt
+            let uploadData = try storageContext.fetch(uploadRequest);
+            guard uploadData.count > 0 else
+            {
+                // No data from the background worker yet
+                uploadStateLabel.text = "Waiting for background sync";
+                lastUploadLabel.text = "No Data";
+                lastUploadData.text = "No Data";
+                return;
+            }
+            
+            // Check the upload state
+            let uploadResults = uploadData[0];
+            guard let uploadStatus = uploadResults.value(forKeyPath: "iLastUploadState") as? Int16 else
+            {
+                uploadStateLabel.text = "Invalid Upload State";
+                lastUploadLabel.text = "No Data";
+                lastUploadData.text = "No Data";
+                return;
+            }
+            
+            // Update Data and Last Run time
+            self.lastUploadData.text = uploadResults.value(forKeyPath: "sLastUploadData") as? String ?? "No Data";
+            let dateResult = uploadResults.value(forKeyPath: "dLastUploadTime") as? Date;
+            self.lastUploadLabel.text = dateResult?.formatted() ?? "No Data";
+
+            // Populate status field
+            let uploadResponse = FileUploader.UploadState(rawValue: uploadStatus) ?? FileUploader.UploadState.Unknown;
+            switch uploadResponse
+            {
+                case FileUploader.UploadState.UploadFailed:
+                    let uploadError = uploadResults.value(forKeyPath: "sUploadResultDetail") as? String ?? "No Data";
+                    self.uploadStateLabel.text = "Failed: \(uploadError)";
+                    return;
+
+                case FileUploader.UploadState.UploadComplete:
+                    self.uploadStateLabel.text = "Upload Successful";
+                    return;
+
+                default:
+                    self.uploadStateLabel.text = "Invalid Upload State";
+                    return;
+            }
+        }
+        catch let error as NSError
+        {
+            guard error.description == "Foundation._GenericObjCError.nilError" else
+            {
+                self.throwErrorDialog(errorText: "Error retrieving App Data: \(error)");
+                return;
+            }
         }
     }
     

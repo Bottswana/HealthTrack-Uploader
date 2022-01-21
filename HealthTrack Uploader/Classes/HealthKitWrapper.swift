@@ -80,7 +80,7 @@ class HealthKitWrapper
             let stepCountTypeWrapped = HKObjectType.quantityType(forIdentifier: .stepCount);
             if let stepCountType = stepCountTypeWrapped
             {
-                let queryResult = try await HealthKitWrapper.getSamplesForCurrentDay(dataType: stepCountType, options: .cumulativeSum);
+                let queryResult = try await getSamplesForCurrentDay(dataType: stepCountType, options: .cumulativeSum);
                 let todaysSampleWrapped = queryResult.sumQuantity();
                 if let todaysSample = todaysSampleWrapped
                 {
@@ -100,7 +100,7 @@ class HealthKitWrapper
             let restingHRTypeWrapped = HKObjectType.quantityType(forIdentifier: .restingHeartRate);
             if let restingHRType = restingHRTypeWrapped
             {
-                let queryResult = try await HealthKitWrapper.getSamplesForCurrentDay(dataType: restingHRType, options: .discreteAverage);
+                let queryResult = try await getSamplesForCurrentDay(dataType: restingHRType, options: .discreteAverage);
                 let todaysSampleWrapped = queryResult.averageQuantity();
                 if let todaysSample = todaysSampleWrapped
                 {
