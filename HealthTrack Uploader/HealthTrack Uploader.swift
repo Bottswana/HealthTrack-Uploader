@@ -6,6 +6,7 @@
 //  Copyright © 2022 Bottswana Media. All rights reserved.
 //
 
+import BackgroundTasks
 import CoreData
 import UIKit
 
@@ -13,11 +14,11 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate
 {
     var window: UIWindow?
+    var backgroundTask = BackgroundTask();
     lazy var persistentContainer: NSPersistentContainer =
     {
         let container = NSPersistentContainer(name: "HealthTrack Uploader")
-        container.loadPersistentStores(completionHandler:
-        { (storeDescription, error) in
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error
             {
                 fatalError("Unresolved error, \((error as NSError).userInfo)");
@@ -27,10 +28,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         return container;
     }()
     
-
+    func applicationDidEnterBackground(_ application: UIApplication)
+    {
+        print("Application entered background state");
+        backgroundTask.cancelAllPendingTasks();
+        backgroundTask.scheduleAppRefresh();
+    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
     {
+        backgroundTask.registerBackgroundTasks();
         return true
     }
 }
