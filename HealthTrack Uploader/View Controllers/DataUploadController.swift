@@ -176,7 +176,7 @@ class DataUploadController: UITableViewController
         // Attempt to flush AWS Config if it exists
         do
         {
-            let uploadClass = try FileUploader();
+            let uploadClass = try FileUploader(storageContext: storageContext);
             uploadClass.clearAWSConfig();
         }
         catch
@@ -255,7 +255,7 @@ class DataUploadController: UITableViewController
         // Attempt to flush AWS Config if it exists
         do
         {
-            let uploadClass = try FileUploader();
+            let uploadClass = try FileUploader(storageContext: storageContext);
             uploadClass.clearAWSConfig();
         }
         catch
@@ -299,7 +299,12 @@ class DataUploadController: UITableViewController
         {
             // Create upload data structure
             let (activeMinutes, numberSteps, restingHeartRate) = await HealthKitWrapper.refreshHealthKitData();
-            let jsonResults = FileUploader.JSONDocument(numberSteps: numberSteps, activeMinutes: activeMinutes, restingHeartRate: restingHeartRate);
+            let jsonResults = FileUploader.JSONDocument(
+                numberSteps: numberSteps,
+                activeMinutes: activeMinutes,
+                restingHeartRate: restingHeartRate,
+                uploadDate: Int64(Date().timeIntervalSince1970)
+            );
 
             // Format data as a JSON String
             let encoder = JSONEncoder();
@@ -309,7 +314,8 @@ class DataUploadController: UITableViewController
             do
             {
                 // Create AWS class and trigger upload
-                let uploadClass = try FileUploader();
+                let storageContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
+                let uploadClass = try FileUploader(storageContext: storageContext);
                 try await uploadClass.uploadFile(uploadData: jsonData);
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2)
                 {

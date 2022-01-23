@@ -30,14 +30,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     
     func applicationDidEnterBackground(_ application: UIApplication)
     {
+        // Cancel any pending background tasks
         print("Application entered background state");
         backgroundTask.cancelAllPendingTasks();
-        backgroundTask.scheduleAppRefresh();
+        
+        // Create a background persistentContext
+        let backgroundContext = persistentContainer.newBackgroundContext();
+        backgroundContext.automaticallyMergesChangesFromParent = true;
+        
+        // Schedule background task
+        backgroundTask.scheduleAppRefresh(storageContext: backgroundContext);
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
     {
-        backgroundTask.registerBackgroundTasks();
+        backgroundTask.registerBackgroundTasks(storageContext: persistentContainer.viewContext);
         return true
     }
 }

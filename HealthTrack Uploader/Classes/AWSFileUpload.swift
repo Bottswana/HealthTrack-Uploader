@@ -37,6 +37,7 @@ class FileUploader
         var numberSteps: Double?
         var activeMinutes: Double?
         var restingHeartRate: Double?
+        var uploadDate: Int64
         
         func encode(to encoder: Encoder) throws
         {
@@ -44,13 +45,14 @@ class FileUploader
             try container.encode(numberSteps, forKey: .numberSteps)
             try container.encode(activeMinutes, forKey: .activeMinutes)
             try container.encode(restingHeartRate, forKey: .restingHeartRate)
+            try container.encode(uploadDate, forKey: .uploadDate)
         }
     }
     
-    init() throws
+    init(storageContext: NSManagedObjectContext) throws
     {
         // Retrieve settings
-        storageContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
+        self.storageContext = storageContext;
         let settingsRequest = NSFetchRequest<NSManagedObject>(entityName: "UploadSettings");
         let uploadRequest = NSFetchRequest<NSManagedObject>(entityName: "LastUpload");
         var awsSettings: NSManagedObject? = nil;
@@ -85,7 +87,7 @@ class FileUploader
         }
         
         // Configure S3 Transfer Service
-        let uploadConfig = AWSS3TransferUtilityConfiguration()
+        let uploadConfig = AWSS3TransferUtilityConfiguration();
         uploadConfig.isAccelerateModeEnabled = false;
         self.bucketName = awsBucketName;
         self.fileName = awsFileName;

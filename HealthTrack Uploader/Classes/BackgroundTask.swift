@@ -21,17 +21,16 @@ class BackgroundTask
         BGTaskScheduler.shared.cancelAllTaskRequests()
     }
     
-    func registerBackgroundTasks()
+    func registerBackgroundTasks(storageContext: NSManagedObjectContext)
     {
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: bgTaskIdentifier, using: DispatchQueue.main) { task in
-            self.doUpload(task: task as! BGAppRefreshTask)
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: bgTaskIdentifier, using: nil) { task in
+            self.doUpload(task: task as! BGProcessingTask, storageContext: storageContext);
         }
     }
     
-    func scheduleAppRefresh()
+    func scheduleAppRefresh(storageContext: NSManagedObjectContext)
     {
         // Retrieve settings
-        let storageContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
         let settingsRequest = NSFetchRequest<NSManagedObject>(entityName: "UploadSettings");
         var appSettings: NSManagedObject? = nil;
 
@@ -52,8 +51,10 @@ class BackgroundTask
             }
             
             // Create Task
-            let backgroundTask = BGAppRefreshTaskRequest(identifier: bgTaskIdentifier);
+            let backgroundTask = BGProcessingTaskRequest(identifier: bgTaskIdentifier);
                 backgroundTask.earliestBeginDate = Date(timeIntervalSinceNow: Double(refreshInterval) * 60);
+                backgroundTask.requiresNetworkConnectivity = true;
+                backgroundTask.requiresExternalPower = false;
             
             // Schedule Task
             print("Scheduled app refresh after a minimum of \(Double(refreshInterval) * 60) seconds");
@@ -66,18 +67,23 @@ class BackgroundTask
         }
     }
     
-    func doUpload(task: BGAppRefreshTask)
+    func doUpload(task: BGProcessingTask, storageContext: NSManagedObjectContext)
     {
         print("Performing Background Task");
         do
         {
             // Perform the background work
-            let uploadClass = try FileUploader();
+            let uploadClass = try FileUploader(storageContext: storageContext);
             let backgroundWork = Task.init
             {
                 // Create upload data structure
                 let (activeMinutes, numberSteps, restingHeartRate) = await HealthKitWrapper.refreshHealthKitData();
-                let jsonResults = FileUploader.JSONDocument(numberSteps: numberSteps, activeMinutes: activeMinutes, restingHeartRate: restingHeartRate);
+                let jsonResults = FileUploader.JSONDocument(
+                    numberSteps: numberSteps,
+                    activeMinutes: activeMinutes,
+                    restingHeartRate: restingHeartRate,
+                    uploadDate: Int64(Date().timeIntervalSince1970)
+                );
 
                 // Format data as a JSON String
                 let encoder = JSONEncoder();
@@ -98,7 +104,7 @@ class BackgroundTask
                 task.setTaskCompleted(success: true);
                 DispatchQueue.main.async
                 {
-                    self.scheduleAppRefresh();
+                    self.scheduleAppRefresh(storageContext: storageContext);
                 }
             }
             
@@ -111,7 +117,7 @@ class BackgroundTask
                 backgroundWork.cancel();
                 
                 // Schedule it to run again another time
-                self.scheduleAppRefresh();
+                self.scheduleAppRefresh(storageContext: storageContext);
             }
         }
         catch

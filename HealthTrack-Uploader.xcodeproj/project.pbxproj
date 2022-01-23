@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0EC71023D8780D04F35688B0 /* Pods_HealthTrack_Uploader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36AF62545F39A49554B95717 /* Pods_HealthTrack_Uploader.framework */; };
 		1A44691E279B692C00277142 /* BackgroundTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A44691D279B692C00277142 /* BackgroundTask.swift */; };
+		1A489D6F279CDB1F003E7492 /* HealthTrack-Uploader-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A489D6E279CDB1F003E7492 /* HealthTrack-Uploader-Info.plist */; };
 		1A5532A7279B2280000380E0 /* AWSFileUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5532A6279B2280000380E0 /* AWSFileUpload.swift */; };
 		1A57960627975F08002F10A5 /* AppUI.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A57960527975F08002F10A5 /* AppUI.storyboard */; };
 		1AB76540279842AD001FE9CC /* HealthDataControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB7653F279842AD001FE9CC /* HealthDataControler.swift */; };
@@ -23,7 +24,7 @@
 
 /* Begin PBXFileReference section */
 		1A44691D279B692C00277142 /* BackgroundTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTask.swift; sourceTree = "<group>"; };
-		1A44691F279B6BBA00277142 /* HealthTrack-Uploader-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "HealthTrack-Uploader-Info.plist"; sourceTree = SOURCE_ROOT; };
+		1A489D6E279CDB1F003E7492 /* HealthTrack-Uploader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "HealthTrack-Uploader-Info.plist"; sourceTree = "<group>"; };
 		1A5532A6279B2280000380E0 /* AWSFileUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSFileUpload.swift; sourceTree = "<group>"; };
 		1A57960527975F08002F10A5 /* AppUI.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppUI.storyboard; sourceTree = "<group>"; };
 		1AB7653F279842AD001FE9CC /* HealthDataControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataControler.swift; sourceTree = "<group>"; };
@@ -84,7 +85,6 @@
 		1AF4216B2797575E005A57B6 /* HealthTrack Uploader */ = {
 			isa = PBXGroup;
 			children = (
-				1A44691F279B6BBA00277142 /* HealthTrack-Uploader-Info.plist */,
 				1AB7654127985EDF001FE9CC /* Classes */,
 				1AB7653E2798425C001FE9CC /* Views */,
 				1A57960427975E5C002F10A5 /* View Controllers */,
@@ -117,6 +117,7 @@
 		AC1BA5031EAE5D2F00C99FE3 = {
 			isa = PBXGroup;
 			children = (
+				1A489D6E279CDB1F003E7492 /* HealthTrack-Uploader-Info.plist */,
 				1AF4216B2797575E005A57B6 /* HealthTrack Uploader */,
 				AC1BA50D1EAE5D2F00C99FE3 /* Products */,
 				1AF421792797579E005A57B6 /* Frameworks */,
@@ -182,10 +183,9 @@
 			};
 			buildConfigurationList = AC1BA5071EAE5D2F00C99FE3 /* Build configuration list for PBXProject "HealthTrack-Uploader" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -206,6 +206,7 @@
 			files = (
 				1A57960627975F08002F10A5 /* AppUI.storyboard in Resources */,
 				1AF421742797575E005A57B6 /* Preview Assets.xcassets in Resources */,
+				1A489D6F279CDB1F003E7492 /* HealthTrack-Uploader-Info.plist in Resources */,
 				1AF421712797575E005A57B6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
