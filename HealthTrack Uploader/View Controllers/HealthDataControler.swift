@@ -7,15 +7,21 @@
 //
 
 import Foundation
+import CoreData
 import UIKit
 
 class HealthDataController: UITableViewController
 {
     @IBOutlet var authoriseButtonCell: UITableViewCell!;
     @IBOutlet var refreshButtonCell: UITableViewCell!;
+    
     @IBOutlet var restingHeartRate: UILabel!
     @IBOutlet var exerciseMinutes: UILabel!
     @IBOutlet var stepCount: UILabel!
+    
+    @IBOutlet var cacheRestingHeartRate: UILabel!
+    @IBOutlet var cacheExerciseMinutes: UILabel!
+    @IBOutlet var cacheStepCount: UILabel!
     
     private var isAuthorised: Bool = false;
     
@@ -45,6 +51,7 @@ class HealthDataController: UITableViewController
     
     @IBAction func authoriseHealthKit(_ sender: UIButton)
     {
+        let storageContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
         if !isAuthorised
         {
             // Clear the width autoresizing option and display a spinner in the accessory section of the table cell
@@ -61,16 +68,18 @@ class HealthDataController: UITableViewController
                 do
                 {
                     try await HealthKitWrapper.authoriseHealthKit();
+                    await HealthKitWrapper.setupHealthKitObservers(storageContext: storageContext);
+                    
                     clearCellAccessory(tableCell: refreshButtonCell);
                     authoriseButtonCell.accessoryView = nil;
                 }
-                catch HealthKitWrapper.HealthKitSetupError.dataTypeNotAvailable
+                catch HealthKitWrapper.HealthKitError.DataTypeNotAvailable
                 {
                     throwErrorDialog(errorText: "Authorization of HealthKit failed:\nThis device does not support the required data");
                     clearCellAccessory(tableCell: authoriseButtonCell);
                     isAuthorised = false;
                 }
-                catch HealthKitWrapper.HealthKitSetupError.notAvailableOnDevice
+                catch HealthKitWrapper.HealthKitError.HealthKitNotAvailable
                 {
                     throwErrorDialog(errorText: "Authorization of HealthKit failed:\nThis device does not support HealthKit");
                     clearCellAccessory(tableCell: authoriseButtonCell);
@@ -88,43 +97,88 @@ class HealthDataController: UITableViewController
     
     @IBAction func refreshData(_ sender: UIButton)
     {
-        if isAuthorised
+        // Clear the width autoresizing option and display a spinner in the accessory section of the table cell
+        updateCellAccessoryActivityIndicator(tableCell: refreshButtonCell);
+        if (sender.autoresizingMask.rawValue & 2) != 0
         {
-            // Clear the width autoresizing option and display a spinner in the accessory section of the table cell
-            updateCellAccessoryActivityIndicator(tableCell: refreshButtonCell);
-            if (sender.autoresizingMask.rawValue & 2) != 0
+            sender.autoresizingMask = UIView.AutoresizingMask(rawValue: sender.autoresizingMask.rawValue - 2);
+        }
+    
+        // Refresh HealthKit Data
+        Task.init
+        {
+            await refreshData();
+            
+            // Reset progress (Artificial delay as saving can be so quick the user gets no feedback)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2)
             {
-                sender.autoresizingMask = UIView.AutoresizingMask(rawValue: sender.autoresizingMask.rawValue - 2);
-            }
-        
-            // Refresh HealthKit Data
-            Task.init
-            {
-                await refreshData();
-                
-                // Reset progress (Artificial delay as saving can be so quick the user gets no feedback)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2)
-                {
-                    // Return button to standard configuration
-                    self.clearCellAccessory(tableCell: self.refreshButtonCell);
-                }
+                // Return button to standard configuration
+                self.clearCellAccessory(tableCell: self.refreshButtonCell);
             }
         }
     }
     
     private func refreshData() async -> Void
     {
-        let (minutes, steps, heartrate) = await HealthKitWrapper.refreshHealthKitData();
+        // Retrieve real-time data
+        if isAuthorised
+        {
+            let (minutes, steps, heartrate) = await HealthKitWrapper.getRealTimeHealthData();
+            DispatchQueue.main.async
+            {
+                if let heartrate = heartrate { self.restingHeartRate.text = "\(Int(heartrate)) BPM"; }
+                else { self.restingHeartRate.text = "No Data"; }
+                
+                if let steps = steps { self.stepCount.text = "\(Int(steps)) Steps"; }
+                else { self.stepCount.text = "No Data"; }
+
+                if let minutes = minutes { self.exerciseMinutes.text = "\(Int(minutes)) Minutes"; }
+                else { self.exerciseMinutes.text = "No Data"; }
+            }
+        }
+        
+        // Retrieve cached data from CoreData
         DispatchQueue.main.async
         {
-            if let heartrate = heartrate { self.restingHeartRate.text = "\(Int(heartrate)) BPM"; }
-            else { self.restingHeartRate.text = "No Data"; }
-            
-            if let steps = steps { self.stepCount.text = "\(Int(steps)) Steps"; }
-            else { self.stepCount.text = "No Data"; }
-
-            if let minutes = minutes { self.exerciseMinutes.text = "\(Int(minutes)) Minutes"; }
-            else { self.exerciseMinutes.text = "No Data"; }
+            do
+            {
+                let storageContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
+                let HKCacheDataRequest = NSFetchRequest<NSManagedObject>(entityName: "BGHKData");
+                let cacheDataResult = try storageContext.fetch(HKCacheDataRequest);
+                if cacheDataResult.count > 0
+                {
+                    if let restingHeartRate = cacheDataResult[0].value(forKeyPath: "dRestingHeartRate") as? Double
+                    {
+                        self.cacheRestingHeartRate.text = "\(Int(restingHeartRate)) BPM";
+                    }
+                    else
+                    {
+                        self.cacheRestingHeartRate.text = "No Data";
+                    }
+                    
+                    if let activeMinutes = cacheDataResult[0].value(forKeyPath: "dExerciseMinutes") as? Double
+                    {
+                        self.cacheExerciseMinutes.text = "\(Int(activeMinutes)) Minutes";
+                    }
+                    else
+                    {
+                        self.cacheExerciseMinutes.text = "No Data";
+                    }
+                    
+                    if let stepCount = cacheDataResult[0].value(forKeyPath: "dStepCount") as? Double
+                    {
+                        self.cacheStepCount.text = "\(Int(stepCount)) Steps";
+                    }
+                    else
+                    {
+                        self.cacheStepCount.text = "No Data";
+                    }
+                }
+            }
+            catch
+            {
+                print("Exception retrieving cached data: \(error)");
+            }
         }
     }
     

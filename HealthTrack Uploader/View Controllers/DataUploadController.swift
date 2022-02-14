@@ -18,7 +18,6 @@ class DataUploadController: UITableViewController
     @IBOutlet var lastUploadData: UITextView!
     @IBOutlet var uploadStateLabel: UILabel!
     @IBOutlet var lastUploadLabel: UILabel!
-    @IBOutlet var awsInterval: UITextField!
     @IBOutlet var awsSecret: UITextField!
     @IBOutlet var awsBucket: UITextField!
     @IBOutlet var awsKeyID: UITextField!
@@ -62,9 +61,6 @@ class DataUploadController: UITableViewController
             
             if let AWSFile = self.appSettings!.value(forKeyPath: "sAWSFile") as? String { self.awsFile.text = AWSFile; }
             else { self.awsFile.text = ""; }
-            
-            if let AWSInterval = self.appSettings!.value(forKeyPath: "iSyncInterval") as? Int16 { self.awsInterval.text = "\(AWSInterval)"; }
-            else { self.awsInterval.text = ""; }
             
             // Reload upload status
             reloadStatus();
@@ -134,16 +130,6 @@ class DataUploadController: UITableViewController
             return;
         }
         
-        // Check Interval
-        guard let Interval = awsInterval.text, Interval.count > 0, let iInterval = Int(Interval), iInterval >= 1, iInterval <= 1440 else
-        {
-            self.throwErrorDialog(errorText: "Please provide a valid Sync Interval in minutes, between 1 and 1440");
-            clearButtonCell.isUserInteractionEnabled = true;
-            syncButtonCell.isUserInteractionEnabled = true;
-            clearCellAccessory(tableCell: saveButtonCell);
-            return;
-        }
-        
         // Get CoreData Context
         let storageContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
         if appSettings == nil
@@ -154,7 +140,6 @@ class DataUploadController: UITableViewController
         
         // Update appSettings
         appSettings!.setValue(AWSKeySecret, forKeyPath: "sAWSSecret");
-        appSettings!.setValue(iInterval, forKeyPath: "iSyncInterval");
         appSettings!.setValue(AWSBucket, forKeyPath: "sAWSBucket");
         appSettings!.setValue(AWSKeyID, forKeyPath: "sAWSKeyID");
         appSettings!.setValue(FileName, forKeyPath: "sAWSFile");
@@ -200,6 +185,19 @@ class DataUploadController: UITableViewController
     }
     
     @IBAction func resetSettings(_ sender: UIButton)
+    {
+        // Ask for user confirmation
+        let confirmAlert = UIAlertController(title: "Confirm", message: "Are you sure you wish to reset settings?", preferredStyle: .alert);
+        confirmAlert.addAction(UIAlertAction(title: NSLocalizedString("Clear", comment: ""), style: .destructive, handler:
+        { _ in
+            self.doResetSettings(sender: sender);
+        }));
+        
+        confirmAlert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Default action"), style: .default));
+        self.present(confirmAlert, animated: true, completion: nil);
+    }
+    
+    private func doResetSettings(sender: UIButton)
     {
         // Clear the width autoresizing option and display a spinner in the accessory section of the table cell
         updateCellAccessoryActivityIndicator(tableCell: clearButtonCell);
@@ -258,9 +256,9 @@ class DataUploadController: UITableViewController
             let uploadClass = try FileUploader(storageContext: storageContext);
             uploadClass.clearAWSConfig();
         }
-        catch
+        catch let error
         {
-            print("AWS config could not be flushed");
+            print("AWS config could not be flushed: \(error)");
         }
         
         // Reset progress (Artificial delay as saving can be so quick the user gets no feedback)
@@ -278,7 +276,6 @@ class DataUploadController: UITableViewController
             self.lastUploadData.text = "N/A";
             
             // Clear all the data in the AWS Fields
-            self.awsInterval.text = "";
             self.awsSecret.text = "";
             self.awsBucket.text = "";
             self.awsKeyID.text = "";
@@ -298,7 +295,7 @@ class DataUploadController: UITableViewController
         Task.init
         {
             // Create upload data structure
-            let (activeMinutes, numberSteps, restingHeartRate) = await HealthKitWrapper.refreshHealthKitData();
+            let (activeMinutes, numberSteps, restingHeartRate) = await HealthKitWrapper.getRealTimeHealthData();
             let jsonResults = FileUploader.JSONDocument(
                 numberSteps: numberSteps,
                 activeMinutes: activeMinutes,
